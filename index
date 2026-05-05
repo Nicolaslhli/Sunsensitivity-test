@@ -1,0 +1,744 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sun Safety & Medications | Sydney Olympic Park Pharmacy</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&family=Noto+Sans+SC:wght@300;400;500&family=Noto+Sans+KR:wght@300;400;500&family=Noto+Sans+JP:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --sun:#F59E0B;--sun-light:#FEF3C7;--sun-dark:#B45309;
+    --burn:#EF4444;--burn-light:#FEE2E2;
+    --safe:#10B981;--safe-light:#D1FAE5;
+    --sky:#0EA5E9;--sky-light:#E0F2FE;
+    --text:#1C1917;--text-muted:#78716C;--text-light:#A8A29E;
+    --bg:#FFFBF5;--bg-card:#FFFFFF;--bg-warm:#FFF8ED;
+    --border:#E7E5E4;--border-warm:#FDE68A;
+    --radius:12px;--radius-sm:8px;
+    --shadow:0 1px 3px rgba(0,0,0,.06),0 4px 16px rgba(0,0,0,.04);
+    --shadow-md:0 4px 6px rgba(0,0,0,.07),0 10px 40px rgba(0,0,0,.06);
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:'DM Sans','Noto Sans SC','Noto Sans KR','Noto Sans JP',sans-serif;background:var(--bg);color:var(--text);line-height:1.6;min-height:100vh;}
+
+  /* LANG BAR */
+  .lang-bar{background:var(--text);padding:10px 24px;display:flex;justify-content:flex-end;align-items:center;gap:4px;position:sticky;top:0;z-index:100;}
+  .lang-btn{background:transparent;border:1px solid rgba(255,255,255,.2);color:rgba(255,255,255,.6);font-family:inherit;font-size:13px;padding:4px 12px;border-radius:20px;cursor:pointer;transition:all .2s;}
+  .lang-btn:hover{background:rgba(255,255,255,.1);color:white;}
+  .lang-btn.active{background:var(--sun);border-color:var(--sun);color:#1C1917;font-weight:600;}
+  .lang-label{color:rgba(255,255,255,.4);font-size:12px;margin-right:8px;}
+
+  /* HERO */
+  .hero{background:linear-gradient(135deg,#FFFBEB 0%,#FEF3C7 40%,#FDE68A 100%);border-bottom:1px solid var(--border-warm);padding:64px 24px 48px;text-align:center;position:relative;overflow:hidden;}
+  .hero::before{content:'';position:absolute;top:-80px;right:-80px;width:320px;height:320px;background:radial-gradient(circle,rgba(245,158,11,.15) 0%,transparent 70%);border-radius:50%;}
+  .hero::after{content:'';position:absolute;bottom:-60px;left:-60px;width:240px;height:240px;background:radial-gradient(circle,rgba(239,68,68,.08) 0%,transparent 70%);border-radius:50%;}
+  .hero-icon{font-size:56px;display:block;margin-bottom:16px;line-height:1;filter:drop-shadow(0 4px 8px rgba(245,158,11,.3));}
+  .hero h1{font-family:'DM Serif Display',serif;font-size:clamp(28px,5vw,48px);font-weight:400;color:#78350F;margin-bottom:12px;letter-spacing:-.02em;line-height:1.15;}
+  .hero p{font-size:16px;color:#92400E;max-width:520px;margin:0 auto 20px;font-weight:300;}
+  .hero-pharmacy{display:inline-block;background:rgba(255,255,255,.7);border:1px solid rgba(245,158,11,.3);color:#B45309;font-size:12px;font-weight:500;padding:5px 14px;border-radius:20px;letter-spacing:.05em;text-transform:uppercase;}
+
+  /* NAV */
+  .nav-wrapper{background:var(--bg-card);border-bottom:1px solid var(--border);position:sticky;top:41px;z-index:90;box-shadow:0 2px 8px rgba(0,0,0,.04);}
+  .nav{max-width:980px;margin:0 auto;display:flex;overflow-x:auto;scrollbar-width:none;padding:0 16px;}
+  .nav::-webkit-scrollbar{display:none;}
+  .nav-item{padding:16px 16px;font-size:14px;font-weight:500;color:var(--text-muted);cursor:pointer;white-space:nowrap;border-bottom:2px solid transparent;transition:all .2s;display:flex;align-items:center;gap:7px;}
+  .nav-item:hover{color:var(--text);}
+  .nav-item.active{color:var(--sun-dark);border-bottom-color:var(--sun);}
+
+  /* CONTENT */
+  .content{max-width:980px;margin:0 auto;padding:32px 16px 64px;}
+  .tab-panel{display:none;}
+  .tab-panel.active{display:block;}
+  .card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:24px;margin-bottom:16px;box-shadow:var(--shadow);}
+  .card-title{font-family:'DM Serif Display',serif;font-size:20px;font-weight:400;color:var(--text);margin-bottom:16px;letter-spacing:-.01em;}
+
+  /* ALERTS */
+  .alert{padding:14px 18px;border-radius:var(--radius-sm);font-size:14px;line-height:1.6;margin-bottom:16px;border-left:3px solid;}
+  .alert strong{font-weight:600;}
+  .alert-warn{background:#FFFBEB;border-color:var(--sun);color:#78350F;}
+  .alert-danger{background:var(--burn-light);border-color:var(--burn);color:#7F1D1D;}
+  .alert-info{background:var(--sky-light);border-color:var(--sky);color:#0C4A6E;}
+  .alert-success{background:var(--safe-light);border-color:var(--safe);color:#064E3B;}
+
+  /* TIMER */
+  .timer-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin-bottom:20px;}
+  @media(max-width:620px){.timer-grid{grid-template-columns:1fr 1fr;}}
+  @media(max-width:400px){.timer-grid{grid-template-columns:1fr;}}
+  .form-group label{display:block;font-size:12px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--text-muted);margin-bottom:7px;}
+  .form-group select,.form-group input[type="text"],.form-group textarea{width:100%;padding:10px 14px;border:1px solid var(--border);border-radius:var(--radius-sm);font-family:inherit;font-size:14px;color:var(--text);background:var(--bg);transition:border-color .2s;}
+  .form-group select{cursor:pointer;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%2378716C' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center;background-color:var(--bg);}
+  .form-group select:focus,.form-group input:focus,.form-group textarea:focus{outline:none;border-color:var(--sun);}
+  .form-group textarea{resize:vertical;min-height:72px;line-height:1.5;}
+  .uv-scale{margin-bottom:20px;}
+  .uv-scale-label{font-size:12px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--text-muted);margin-bottom:8px;}
+  .uv-track{height:10px;border-radius:5px;background:linear-gradient(to right,#6EE7B7,#A3E635,#FDE047,#F97316,#EF4444,#7C3AED);position:relative;margin-bottom:4px;}
+  .uv-pin{position:absolute;width:18px;height:18px;background:white;border:2px solid #374151;border-radius:50%;top:-4px;transform:translateX(-50%);transition:left .4s cubic-bezier(.34,1.56,.64,1);box-shadow:0 2px 4px rgba(0,0,0,.2);}
+  .uv-labels{display:flex;justify-content:space-between;font-size:11px;color:var(--text-light);}
+  .result-card{border-radius:var(--radius);padding:28px;text-align:center;margin:20px 0;transition:all .3s;border:1.5px solid;}
+  .result-card.safe{background:var(--safe-light);border-color:var(--safe);}
+  .result-card.caution{background:#FFFBEB;border-color:var(--sun);}
+  .result-card.danger{background:var(--burn-light);border-color:var(--burn);}
+  .result-time{font-family:'DM Serif Display',serif;font-size:52px;font-weight:400;line-height:1;margin-bottom:8px;}
+  .result-card.safe .result-time{color:#064E3B;}
+  .result-card.caution .result-time{color:#78350F;}
+  .result-card.danger .result-time{color:#7F1D1D;}
+  .result-sublabel{font-size:14px;color:var(--text-muted);}
+  .timer-widget{text-align:center;padding:20px 0 8px;border-top:1px solid var(--border);margin-top:20px;}
+  .ring-container{position:relative;width:140px;height:140px;margin:0 auto 16px;}
+  .ring-svg{transform:rotate(-90deg);}
+  .ring-bg{fill:none;stroke:var(--border);stroke-width:10;}
+  .ring-progress{fill:none;stroke:var(--sun);stroke-width:10;stroke-linecap:round;stroke-dasharray:376;stroke-dashoffset:376;transition:stroke-dashoffset .8s ease,stroke .3s;}
+  .ring-center{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;}
+  .ring-num{font-family:'DM Serif Display',serif;font-size:32px;color:var(--text);line-height:1;}
+  .ring-unit{font-size:12px;color:var(--text-muted);margin-top:2px;}
+  .timer-btn{display:inline-flex;align-items:center;gap:8px;padding:11px 28px;background:var(--sun);color:#78350F;font-family:inherit;font-size:15px;font-weight:600;border:none;border-radius:100px;cursor:pointer;transition:all .2s;box-shadow:0 2px 8px rgba(245,158,11,.3);}
+  .timer-btn:hover{background:#FBBF24;transform:translateY(-1px);}
+  .timer-btn.running{background:#FEE2E2;color:#7F1D1D;}
+  .timer-msg{font-size:14px;color:var(--text-muted);margin-top:10px;min-height:20px;}
+
+  /* MEDS */
+  .meds-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px;}
+  .med-card{background:var(--bg-warm);border:1px solid #FDE68A;border-radius:var(--radius-sm);padding:14px;}
+  .med-category{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#D97706;margin-bottom:6px;}
+  .med-name{font-size:15px;font-weight:600;color:var(--text);margin-bottom:6px;}
+  .med-desc{font-size:13px;color:var(--text-muted);line-height:1.5;}
+  .risk-pill{display:inline-block;font-size:10px;font-weight:700;padding:2px 8px;border-radius:10px;margin-left:6px;vertical-align:middle;}
+  .risk-high{background:#FEE2E2;color:#991B1B;}
+  .risk-mod{background:#FEF3C7;color:#92400E;}
+  .reaction-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+  @media(max-width:480px){.reaction-grid{grid-template-columns:1fr;}}
+  .reaction-box{padding:16px;border-radius:var(--radius-sm);}
+  .reaction-box.phototoxic{background:#FFFBEB;border:1px solid #FDE68A;}
+  .reaction-box.photoallergic{background:#FFF1F2;border:1px solid #FECDD3;}
+  .reaction-title{font-size:15px;font-weight:600;margin-bottom:8px;}
+  .reaction-box.phototoxic .reaction-title{color:#78350F;}
+  .reaction-box.photoallergic .reaction-title{color:#881337;}
+  .reaction-box p{font-size:13px;line-height:1.6;color:var(--text-muted);}
+
+  /* PROTECT */
+  .tips-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px;}
+  .tip-card{text-align:center;padding:18px 12px;background:var(--bg-warm);border:1px solid var(--border-warm);border-radius:var(--radius-sm);}
+  .tip-emoji{font-size:28px;display:block;margin-bottom:10px;}
+  .tip-title{font-size:14px;font-weight:600;color:var(--text);margin-bottom:5px;}
+  .tip-desc{font-size:12px;color:var(--text-muted);line-height:1.5;}
+  .steps-list{display:flex;flex-direction:column;gap:12px;}
+  .step{display:flex;gap:14px;align-items:flex-start;}
+  .step-num{width:28px;height:28px;background:var(--sun);color:#78350F;font-weight:700;font-size:13px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;}
+  .step p{font-size:14px;line-height:1.6;color:var(--text-muted);}
+  .step strong{color:var(--text);}
+
+  /* SUNSCREEN PRODUCTS */
+  .products-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px;margin-bottom:16px;}
+  .product-card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:18px;box-shadow:var(--shadow);display:flex;flex-direction:column;gap:10px;transition:box-shadow .2s;}
+  .product-card:hover{box-shadow:var(--shadow-md);}
+  .product-name{font-size:15px;font-weight:600;color:var(--text);line-height:1.3;}
+  .product-brand{font-size:12px;color:var(--text-muted);margin-top:2px;}
+  .product-badges{display:flex;flex-wrap:wrap;gap:5px;}
+  .badge{display:inline-block;font-size:11px;font-weight:600;padding:3px 9px;border-radius:10px;}
+  .badge-spf{background:#FEF3C7;color:#78350F;border:1px solid #FDE68A;}
+  .badge-type{background:var(--sky-light);color:#0C4A6E;border:1px solid #BAE6FD;}
+  .badge-feature{background:var(--safe-light);color:#064E3B;border:1px solid #6EE7B7;}
+  .badge-neutral{background:var(--bg-warm);color:var(--text-muted);border:1px solid var(--border-warm);}
+  .product-notes{font-size:13px;color:var(--text-muted);line-height:1.5;}
+  .product-actions{display:flex;gap:8px;margin-top:auto;padding-top:10px;border-top:1px solid var(--border);}
+  .btn-edit{flex:1;padding:7px 12px;background:var(--bg-warm);border:1px solid var(--border-warm);border-radius:var(--radius-sm);font-family:inherit;font-size:13px;font-weight:500;color:var(--sun-dark);cursor:pointer;transition:all .15s;}
+  .btn-edit:hover{background:var(--sun-light);}
+  .btn-delete{padding:7px 12px;background:transparent;border:1px solid var(--border);border-radius:var(--radius-sm);font-family:inherit;font-size:13px;color:var(--text-muted);cursor:pointer;transition:all .15s;}
+  .btn-delete:hover{background:var(--burn-light);border-color:#FECACA;color:#7F1D1D;}
+  .add-product-btn{display:flex;align-items:center;gap:10px;width:100%;padding:16px 20px;background:var(--bg-card);border:2px dashed var(--border-warm);border-radius:var(--radius);font-family:inherit;font-size:15px;font-weight:500;color:var(--sun-dark);cursor:pointer;transition:all .2s;}
+  .add-product-btn:hover{background:var(--bg-warm);border-color:var(--sun);}
+  .add-icon{width:32px;height:32px;background:var(--sun-light);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;}
+  .filters-row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px;}
+  .filter-btn{padding:5px 14px;background:var(--bg-card);border:1px solid var(--border);border-radius:20px;font-family:inherit;font-size:13px;color:var(--text-muted);cursor:pointer;transition:all .15s;}
+  .filter-btn:hover{border-color:var(--sun);color:var(--sun-dark);}
+  .filter-btn.active{background:var(--sun-light);border-color:var(--sun);color:var(--sun-dark);font-weight:600;}
+  .empty-state{text-align:center;padding:48px 24px;color:var(--text-muted);grid-column:1/-1;}
+  .empty-icon{font-size:40px;display:block;margin-bottom:12px;}
+
+  /* MODAL */
+  .modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:200;align-items:center;justify-content:center;padding:20px;}
+  .modal-overlay.open{display:flex;}
+  .modal{background:var(--bg-card);border-radius:var(--radius);padding:28px;width:100%;max-width:520px;max-height:90vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,.2);}
+  .modal-title{font-family:'DM Serif Display',serif;font-size:22px;font-weight:400;color:var(--text);margin-bottom:20px;}
+  .modal-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:4px;}
+  @media(max-width:480px){.modal-grid{grid-template-columns:1fr;}}
+  .modal-full{grid-column:1/-1;}
+  .modal-actions{display:flex;gap:10px;justify-content:flex-end;margin-top:20px;padding-top:16px;border-top:1px solid var(--border);}
+  .btn-cancel{padding:9px 20px;background:transparent;border:1px solid var(--border);border-radius:var(--radius-sm);font-family:inherit;font-size:14px;color:var(--text-muted);cursor:pointer;}
+  .btn-cancel:hover{background:var(--bg);}
+  .btn-save{padding:9px 24px;background:var(--sun);border:none;border-radius:var(--radius-sm);font-family:inherit;font-size:14px;font-weight:600;color:#78350F;cursor:pointer;box-shadow:0 2px 8px rgba(245,158,11,.25);}
+  .btn-save:hover{background:#FBBF24;}
+  .checkbox-group{display:flex;flex-wrap:wrap;gap:8px;}
+  .checkbox-pill{display:flex;align-items:center;gap:5px;padding:5px 10px;border:1px solid var(--border);border-radius:20px;font-size:13px;color:var(--text-muted);cursor:pointer;transition:all .15s;user-select:none;}
+  .checkbox-pill input{display:none;}
+  .checkbox-pill.checked{background:var(--sun-light);border-color:var(--sun);color:var(--sun-dark);font-weight:500;}
+
+  /* SKIN CANCER */
+  .sc-stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;}
+  .sc-stat{background:var(--bg-warm);border:1px solid var(--border-warm);border-radius:var(--radius-sm);padding:16px;text-align:center;}
+  .sc-stat-num{font-family:'DM Serif Display',serif;font-size:28px;font-weight:400;color:#78350F;line-height:1;margin-bottom:6px;}
+  .sc-stat-label{font-size:12px;color:var(--text-muted);line-height:1.4;}
+  .sc-types-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px;}
+  .sc-type-card{border-radius:var(--radius);padding:20px;border:1.5px solid;}
+  .sc-type-card.bcc{background:#EFF6FF;border-color:#BFDBFE;}
+  .sc-type-card.scc{background:#FFF7ED;border-color:#FED7AA;}
+  .sc-type-card.mel{background:#FFF1F2;border-color:#FECDD3;}
+  .sc-type-title{font-size:16px;font-weight:700;margin-bottom:4px;}
+  .sc-type-card.bcc .sc-type-title{color:#1D4ED8;}
+  .sc-type-card.scc .sc-type-title{color:#C2410C;}
+  .sc-type-card.mel .sc-type-title{color:#BE123C;}
+  .sc-type-subtitle{font-size:12px;font-weight:500;margin-bottom:10px;}
+  .sc-type-card.bcc .sc-type-subtitle{color:#3B82F6;}
+  .sc-type-card.scc .sc-type-subtitle{color:#F97316;}
+  .sc-type-card.mel .sc-type-subtitle{color:#FB7185;}
+  .sc-type-body{font-size:13px;color:var(--text-muted);line-height:1.6;}
+  .sc-type-signs{margin-top:10px;padding-top:10px;border-top:1px solid rgba(0,0,0,.07);}
+  .sc-type-signs strong{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;display:block;margin-bottom:6px;color:var(--text-muted);}
+  .sc-sign-pill{display:inline-block;font-size:12px;padding:3px 10px;border-radius:10px;margin:2px;}
+  .bcc .sc-sign-pill{background:#DBEAFE;color:#1E40AF;}
+  .scc .sc-sign-pill{background:#FFEDD5;color:#9A3412;}
+  .mel .sc-sign-pill{background:#FFE4E6;color:#9F1239;}
+  .abcde-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;}
+  .abcde-card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-sm);padding:14px;text-align:center;}
+  .abcde-letter{font-family:'DM Serif Display',serif;font-size:36px;font-weight:400;color:var(--sun-dark);line-height:1;margin-bottom:6px;}
+  .abcde-word{font-size:14px;font-weight:700;color:var(--text);margin-bottom:6px;}
+  .abcde-desc{font-size:12px;color:var(--text-muted);line-height:1.5;}
+  .efg-bar{display:flex;gap:10px;flex-wrap:wrap;margin-top:8px;}
+  .efg-item{flex:1;min-width:120px;background:#FFF1F2;border:1px solid #FECDD3;border-radius:var(--radius-sm);padding:12px;}
+  .efg-letter{font-family:'DM Serif Display',serif;font-size:24px;color:#BE123C;line-height:1;margin-bottom:4px;}
+  .efg-word{font-size:13px;font-weight:700;color:#9F1239;margin-bottom:4px;}
+  .efg-desc{font-size:12px;color:var(--text-muted);line-height:1.5;}
+  .sc-checklist{display:flex;flex-direction:column;gap:8px;}
+  .sc-check{display:flex;align-items:flex-start;gap:12px;padding:10px 14px;background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-sm);font-size:14px;color:var(--text-muted);line-height:1.5;}
+  .sc-check-icon{font-size:18px;flex-shrink:0;margin-top:1px;}
+  .source-list{display:flex;flex-direction:column;gap:6px;margin-top:4px;}
+  .source-item{font-size:12px;color:var(--text-muted);padding:8px 12px;background:var(--bg-warm);border-radius:var(--radius-sm);border:1px solid var(--border-warm);display:flex;align-items:flex-start;gap:8px;}
+  .source-item a{color:var(--sun-dark);text-decoration:underline;word-break:break-all;}
+
+  /* FOOTER */
+  footer{background:var(--text);color:rgba(255,255,255,.5);text-align:center;padding:28px 24px;font-size:12px;line-height:1.8;}
+  footer strong{color:rgba(255,255,255,.8);}
+  .section-header{margin-bottom:20px;}
+  .section-header h2{font-family:'DM Serif Display',serif;font-size:26px;font-weight:400;letter-spacing:-.01em;color:var(--text);margin-bottom:6px;}
+  .section-header p{font-size:14px;color:var(--text-muted);}
+
+  /* LANG */
+  [data-lang]{display:none;}
+  body.lang-en [data-lang="en"],body.lang-zh [data-lang="zh"],body.lang-ko [data-lang="ko"],body.lang-ja [data-lang="ja"]{display:inline;}
+</style>
+</head>
+<body class="lang-en">
+
+<div class="lang-bar">
+  <span class="lang-label">Language</span>
+  <button class="lang-btn active" onclick="setLang('en',this)">English</button>
+  <button class="lang-btn" onclick="setLang('zh',this)">中文</button>
+  <button class="lang-btn" onclick="setLang('ko',this)">한국어</button>
+  <button class="lang-btn" onclick="setLang('ja',this)">日本語</button>
+</div>
+
+<div class="hero">
+  <span class="hero-icon">☀️</span>
+  <h1><span data-lang="en">Sun Safety &amp; Your Medications</span><span data-lang="zh">日晒安全与您的药物</span><span data-lang="ko">자외선 안전과 나의 약물</span><span data-lang="ja">日焼けの安全とあなたの薬</span></h1>
+  <p><span data-lang="en">Some medications make your skin much more sensitive to UV radiation. Learn how to stay safe.</span><span data-lang="zh">某些药物会使您的皮肤对紫外线更加敏感。了解如何保持安全。</span><span data-lang="ko">일부 약물은 피부의 자외선 감수성을 높입니다. 안전하게 지내는 방법을 알아보세요.</span><span data-lang="ja">一部の薬は皮膚を紫外線に対してより敏感にします。安全を守る方法を学びましょう。</span></p>
+  <div class="hero-pharmacy"><span data-lang="en">Sydney Olympic Park Community Pharmacy</span><span data-lang="zh">悉尼奥林匹克公园社区药房</span><span data-lang="ko">시드니 올림픽 파크 커뮤니티 약국</span><span data-lang="ja">シドニーオリンピックパーク コミュニティ薬局</span></div>
+</div>
+
+<div class="nav-wrapper">
+  <nav class="nav">
+    <div class="nav-item active" onclick="switchTab('timer',this)"><span>⏱</span><span data-lang="en">Sunburn timer</span><span data-lang="zh">晒伤计时器</span><span data-lang="ko">일광화상 타이머</span><span data-lang="ja">日焼けタイマー</span></div>
+    <div class="nav-item" onclick="switchTab('meds',this)"><span>💊</span><span data-lang="en">My medications</span><span data-lang="zh">我的药物</span><span data-lang="ko">나의 약물</span><span data-lang="ja">わたしの薬</span></div>
+    <div class="nav-item" onclick="switchTab('protect',this)"><span>🧴</span><span data-lang="en">Protection tips</span><span data-lang="zh">防护提示</span><span data-lang="ko">보호 팁</span><span data-lang="ja">保護のヒント</span></div>
+    <div class="nav-item" onclick="switchTab('sunscreens',this)"><span>🛒</span><span data-lang="en">Sunscreen products</span><span data-lang="zh">防晒产品</span><span data-lang="ko">선크림 제품</span><span data-lang="ja">日焼け止め製品</span></div>
+    <div class="nav-item" onclick="switchTab('skincancer',this)"><span>🔬</span><span data-lang="en">Skin cancer signs</span><span data-lang="zh">皮肤癌征兆</span><span data-lang="ko">피부암 징후</span><span data-lang="ja">皮膚がんのサイン</span></div>
+  </nav>
+</div>
+
+<main class="content">
+
+<!-- ─── TIMER TAB ─────────────────────────────────────────────── -->
+<div id="tab-timer" class="tab-panel active">
+  <div class="section-header">
+    <h2><span data-lang="en">How long can I stay in the sun?</span><span data-lang="zh">我能在阳光下待多久？</span><span data-lang="ko">햇볕 아래 얼마나 있을 수 있나요?</span><span data-lang="ja">太陽の下にどのくらい居られますか？</span></h2>
+    <p><span data-lang="en">Enter your skin type, UV index, and sunscreen SPF to estimate your safe sun exposure time. Based on the Fitzpatrick scale and Minimal Erythemal Dose (MED).</span><span data-lang="zh">输入您的皮肤类型、紫外线指数和防晒系数，估算安全日晒时间。基于菲茨帕特里克量表和最小红斑剂量（MED）。</span><span data-lang="ko">피부 유형, 자외선 지수, SPF를 입력하여 안전한 햇볕 노출 시간을 추정하세요. 피츠패트릭 척도와 최소 홍반량(MED)을 기반으로 합니다.</span><span data-lang="ja">皮膚タイプ、UVインデックス、SPFを入力して安全な日光暴露時間を推定します。フィッツパトリックスケールと最小紅斑量（MED）に基づいています。</span></p>
+  </div>
+  <div class="card">
+    <div class="timer-grid">
+      <div class="form-group">
+        <label><span data-lang="en">Skin type</span><span data-lang="zh">皮肤类型</span><span data-lang="ko">피부 유형</span><span data-lang="ja">皮膚タイプ</span></label>
+        <select id="skinType" onchange="calculate()">
+          <option value="1" data-en="Type I — always burns, never tans" data-zh="I型 — 总是晒红，从不晒黑" data-ko="I형 — 항상 화상, 절대 태닝 안 됨" data-ja="Iタイプ — 常に日焼け、色褐化なし"></option>
+          <option value="2" data-en="Type II — usually burns, tans minimally" data-zh="II型 — 通常晒红，轻微晒黑" data-ko="II형 — 자주 화상, 약간 태닝" data-ja="IIタイプ — よく日焼け、わずかに色褐化"></option>
+          <option value="3" selected data-en="Type III — sometimes burns, tans gradually" data-zh="III型 — 有时晒红，逐渐晒黑" data-ko="III형 — 때로 화상, 서서히 태닝" data-ja="IIIタイプ — 時々日焼け、徐々に色褐化"></option>
+          <option value="4" data-en="Type IV — rarely burns, tans easily" data-zh="IV型 — 很少晒红，容易晒黑" data-ko="IV형 — 화상 드묾, 쉽게 태닝" data-ja="IVタイプ — めったに日焼けしない、簡単に色褐化"></option>
+          <option value="5" data-en="Type V — very rarely burns, tans deeply" data-zh="V型 — 极少晒红，深度晒黑" data-ko="V형 — 거의 화상 없음, 깊은 태닝" data-ja="Vタイプ — ほとんど日焼けしない、深く色褐化"></option>
+          <option value="6" data-en="Type VI — never burns, deeply pigmented" data-zh="VI型 — 从不晒红，肤色深" data-ko="VI형 — 화상 없음, 매우 짙은 피부" data-ja="VIタイプ — 日焼けしない、深い色素"></option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label><span data-lang="en">UV index now</span><span data-lang="zh">当前紫外线指数</span><span data-lang="ko">현재 자외선 지수</span><span data-lang="ja">現在のUVインデックス</span></label>
+        <select id="uvIndex" onchange="calculate()">
+          <option value="1.5" data-en="1–2 (Low)" data-zh="1–2（低）" data-ko="1–2 (낮음)" data-ja="1–2（低い）"></option>
+          <option value="3.5" data-en="3–4 (Moderate)" data-zh="3–4（中等）" data-ko="3–4 (보통)" data-ja="3–4（中程度）"></option>
+          <option value="5.5" selected data-en="5–6 (High)" data-zh="5–6（高）" data-ko="5–6 (높음)" data-ja="5–6（高い）"></option>
+          <option value="8" data-en="7–9 (Very High)" data-zh="7–9（非常高）" data-ko="7–9 (매우 높음)" data-ja="7–9（非常に高い）"></option>
+          <option value="11" data-en="10–11+ (Extreme)" data-zh="10–11+（极端）" data-ko="10–11+ (매우 위험)" data-ja="10–11+（非常に危険）"></option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label><span data-lang="en">Sunscreen SPF</span><span data-lang="zh">防晒霜 SPF</span><span data-lang="ko">선크림 SPF</span><span data-lang="ja">日焼け止め SPF</span></label>
+        <select id="spf" onchange="calculate()">
+          <option value="1" data-en="No sunscreen" data-zh="无防晒霜" data-ko="선크림 없음" data-ja="日焼け止めなし"></option>
+          <option value="3.75" data-en="SPF 15" data-zh="SPF 15" data-ko="SPF 15" data-ja="SPF 15"></option>
+          <option value="7.5" data-en="SPF 30" data-zh="SPF 30" data-ko="SPF 30" data-ja="SPF 30"></option>
+          <option value="12.5" selected data-en="SPF 50 (recommended)" data-zh="SPF 50（推荐）" data-ko="SPF 50 (권장)" data-ja="SPF 50（推奨）"></option>
+          <option value="14" data-en="SPF 50+" data-zh="SPF 50+" data-ko="SPF 50+" data-ja="SPF 50+"></option>
+        </select>
+      </div>
+    </div>
+    <div class="uv-scale">
+      <div class="uv-scale-label"><span data-lang="en">UV index scale</span><span data-lang="zh">紫外线指数刻度</span><span data-lang="ko">자외선 지수 척도</span><span data-lang="ja">UVインデックス目盛り</span></div>
+      <div class="uv-track"><div class="uv-pin" id="uvPin" style="left:42%"></div></div>
+      <div class="uv-labels">
+        <span data-lang="en">Low</span><span data-lang="zh">低</span><span data-lang="ko">낮음</span><span data-lang="ja">低</span>
+        <span data-lang="en">Moderate</span><span data-lang="zh">中等</span><span data-lang="ko">보통</span><span data-lang="ja">中</span>
+        <span data-lang="en">High</span><span data-lang="zh">高</span><span data-lang="ko">높음</span><span data-lang="ja">高</span>
+        <span data-lang="en">Very High</span><span data-lang="zh">非常高</span><span data-lang="ko">매우 높음</span><span data-lang="ja">非常に高</span>
+        <span data-lang="en">Extreme</span><span data-lang="zh">极端</span><span data-lang="ko">위험</span><span data-lang="ja">危険</span>
+      </div>
+    </div>
+    <div id="resultCard" class="result-card caution">
+      <div class="result-time" id="resultTime">—</div>
+      <div class="result-sublabel" id="resultLabel"><span data-lang="en">Fill in your details above</span><span data-lang="zh">请在上方填写您的信息</span><span data-lang="ko">위에 정보를 입력하세요</span><span data-lang="ja">上の情報を入力してください</span></div>
+    </div>
+    <div style="font-size:12px;color:var(--text-light);text-align:center;margin:-8px 0 16px;line-height:1.6;">
+      <span data-lang="en">Based on Fitzpatrick MED values &amp; WHO UV irradiance formula (UVI × 0.025 W/m²). Real-world SPF effectiveness applied. This is an estimate — individual responses vary.</span>
+      <span data-lang="zh">基于菲茨帕特里克MED值和世卫组织紫外线辐照度公式。已应用实际SPF效果。此为估算值，个体差异可能不同。</span>
+      <span data-lang="ko">피츠패트릭 MED 값과 WHO 자외선 조도 공식(UVI × 0.025 W/m²) 기반. 실제 SPF 효과 적용. 추정값이며 개인차가 있습니다.</span>
+      <span data-lang="ja">フィッツパトリックMED値とWHO UV照射公式に基づく。実際のSPF効果を適用。推定値であり個人差があります。</span>
+    </div>
+    <div class="alert alert-warn" style="margin-bottom:16px;">
+      <strong><span data-lang="en">⚠ Taking photosensitising medications? </span><span data-lang="zh">⚠ 正在服用光敏性药物？</span><span data-lang="ko">⚠ 광과민성 약물 복용 중? </span><span data-lang="ja">⚠ 光感受性の薬を服用中？</span></strong>
+      <span data-lang="en">Your actual burn time may be much shorter than this estimate. See the <strong>My Medications</strong> tab for details.</span>
+      <span data-lang="zh">您的实际晒伤时间可能远短于此估算值。详情请查看<strong>我的药物</strong>选项卡。</span>
+      <span data-lang="ko">실제 화상 시간은 이 추정값보다 훨씬 짧을 수 있습니다. <strong>나의 약물</strong> 탭을 참조하세요.</span>
+      <span data-lang="ja">実際の日焼け時間はこの推定値より短い場合があります。<strong>わたしの薬</strong>タブをご覧ください。</span>
+    </div>
+    <div class="timer-widget">
+      <div class="ring-container">
+        <svg class="ring-svg" width="140" height="140" viewBox="0 0 140 140">
+          <circle class="ring-bg" cx="70" cy="70" r="60"/>
+          <circle class="ring-progress" id="ringProgress" cx="70" cy="70" r="60"/>
+        </svg>
+        <div class="ring-center"><div class="ring-num" id="ringNum">—</div><div class="ring-unit" id="ringUnit">min</div></div>
+      </div>
+      <button class="timer-btn" id="timerBtn" onclick="toggleTimer()">
+        <span id="timerBtnText"><span data-lang="en">▶ Start timer</span><span data-lang="zh">▶ 开始计时</span><span data-lang="ko">▶ 타이머 시작</span><span data-lang="ja">▶ タイマー開始</span></span>
+      </button>
+      <div class="timer-msg" id="timerMsg"></div>
+    </div>
+  </div>
+  <div class="alert alert-info">
+    <strong><span data-lang="en">Sydney UV today — </span><span data-lang="zh">今日悉尼紫外线 — </span><span data-lang="ko">오늘 시드니 자외선 — </span><span data-lang="ja">今日のシドニーUV — </span></strong>
+    <span data-lang="en">UV is typically High to Very High in summer (Oct–Mar). Check the <a href="https://www.bom.gov.au/uv/" target="_blank">Bureau of Meteorology UV forecast</a> before going outdoors.</span>
+    <span data-lang="zh">夏季（10月至3月）紫外线通常为高至非常高。外出前请查看<a href="https://www.bom.gov.au/uv/" target="_blank">气象局紫外线预报</a>。</span>
+    <span data-lang="ko">여름(10월~3월)에는 자외선이 높음에서 매우 높음 수준입니다. 외출 전 <a href="https://www.bom.gov.au/uv/" target="_blank">기상청 자외선 예보</a>를 확인하세요.</span>
+    <span data-lang="ja">夏（10月〜3月）はUV指数が高くなります。外出前に<a href="https://www.bom.gov.au/uv/" target="_blank">気象局のUV予報</a>を確認してください。</span>
+  </div>
+</div>
+
+<!-- ─── MEDS TAB ──────────────────────────────────────────────── -->
+<div id="tab-meds" class="tab-panel">
+  <div class="section-header"><h2><span data-lang="en">Medications that cause photosensitivity</span><span data-lang="zh">引起光敏反应的药物</span><span data-lang="ko">광과민성을 유발하는 약물</span><span data-lang="ja">光感受性を引き起こす薬</span></h2></div>
+  <div class="alert alert-warn"><strong><span data-lang="en">Important — </span><span data-lang="zh">重要提示 — </span><span data-lang="ko">중요 — </span><span data-lang="ja">重要 — </span></strong><span data-lang="en">Photosensitivity reactions can cause severe sunburn-like rashes, blistering, or lasting skin discolouration — even on cloudy days or through windows. Do not stop your medication without speaking to your doctor.</span><span data-lang="zh">光敏反应可导致严重的类似晒伤皮疹、起泡或持续性皮肤变色——即使在阴天或隔窗也可能发生。未经医生同意，请勿停药。</span><span data-lang="ko">광과민성 반응은 흐린 날이나 창문을 통해서도 심한 일광화상 유사 발진, 물집, 또는 지속적인 피부 변색을 유발할 수 있습니다. 의사 상담 없이 약을 중단하지 마세요.</span><span data-lang="ja">光感受性反応は、曇りの日や窓越しでも、重篤な日焼けに似た発疹、水疱、または皮膚変色を引き起こすことがあります。医師の相談なしに薬を中止しないでください。</span></div>
+  <div class="card">
+    <div class="card-title"><span data-lang="en">Common photosensitising medications</span><span data-lang="zh">常见光敏性药物</span><span data-lang="ko">흔한 광과민성 약물</span><span data-lang="ja">一般的な光感受性の薬</span></div>
+    <div class="meds-grid">
+      <div class="med-card"><div class="med-category"><span data-lang="en">Antibiotics</span><span data-lang="zh">抗生素</span><span data-lang="ko">항생제</span><span data-lang="ja">抗生物質</span></div><div class="med-name"><span data-lang="en">Tetracyclines</span><span data-lang="zh">四环素类</span><span data-lang="ko">테트라사이클린</span><span data-lang="ja">テトラサイクリン系</span><span class="risk-pill risk-high"><span data-lang="en">High</span><span data-lang="zh">高</span><span data-lang="ko">높음</span><span data-lang="ja">高</span></span></div><div class="med-desc"><span data-lang="en">Doxycycline, minocycline, tetracycline. Commonly used for acne — strongly photosensitising.</span><span data-lang="zh">强力霉素、美满霉素、四环素。常用于治疗痤疮——强光敏性。</span><span data-lang="ko">독시사이클린, 미노사이클린, 테트라사이클린. 여드름 치료에 흔히 사용 — 강한 광과민성.</span><span data-lang="ja">ドキシサイクリン、ミノサイクリン、テトラサイクリン。ニキビ治療に一般的 — 強い光感受性。</span></div></div>
+      <div class="med-card"><div class="med-category"><span data-lang="en">Antibiotics</span><span data-lang="zh">抗生素</span><span data-lang="ko">항생제</span><span data-lang="ja">抗生物質</span></div><div class="med-name"><span data-lang="en">Fluoroquinolones</span><span data-lang="zh">氟喹诺酮类</span><span data-lang="ko">플루오로퀴놀론</span><span data-lang="ja">フルオロキノロン系</span><span class="risk-pill risk-mod"><span data-lang="en">Moderate</span><span data-lang="zh">中等</span><span data-lang="ko">중간</span><span data-lang="ja">中程度</span></span></div><div class="med-desc"><span data-lang="en">Ciprofloxacin, norfloxacin. Avoid prolonged sun during treatment.</span><span data-lang="zh">环丙沙星、诺氟沙星。治疗期间避免长时间日晒。</span><span data-lang="ko">시프로플록사신, 노르플록사신. 치료 중 장시간 햇볕 노출 피하세요.</span><span data-lang="ja">シプロフロキサシン、ノルフロキサシン。治療中は長時間の日光を避けてください。</span></div></div>
+      <div class="med-card"><div class="med-category"><span data-lang="en">Blood pressure / Diuretics</span><span data-lang="zh">血压 / 利尿剂</span><span data-lang="ko">혈압 / 이뇨제</span><span data-lang="ja">血圧 / 利尿薬</span></div><div class="med-name"><span data-lang="en">Thiazide diuretics</span><span data-lang="zh">噻嗪类利尿剂</span><span data-lang="ko">티아지드 이뇨제</span><span data-lang="ja">チアジド系利尿薬</span><span class="risk-pill risk-high"><span data-lang="en">High</span><span data-lang="zh">高</span><span data-lang="ko">높음</span><span data-lang="ja">高</span></span></div><div class="med-desc"><span data-lang="en">Hydrochlorothiazide, indapamide. Very common blood pressure medication — significant photosensitivity risk.</span><span data-lang="zh">氢氯噻嗪、吲达帕胺。非常常见的降压药——显著光敏风险。</span><span data-lang="ko">하이드로클로로티아지드, 인다파미드. 매우 흔한 혈압약 — 상당한 광과민성 위험.</span><span data-lang="ja">ヒドロクロロチアジド、インダパミド。非常に一般的な血圧薬 — 著しい光感受性リスク。</span></div></div>
+      <div class="med-card"><div class="med-category"><span data-lang="en">Heart rhythm</span><span data-lang="zh">心律</span><span data-lang="ko">심장 리듬</span><span data-lang="ja">心臓のリズム</span></div><div class="med-name"><span data-lang="en">Amiodarone</span><span data-lang="zh">胺碘酮</span><span data-lang="ko">아미오다론</span><span data-lang="ja">アミオダロン</span><span class="risk-pill risk-high"><span data-lang="en">High</span><span data-lang="zh">高</span><span data-lang="ko">높음</span><span data-lang="ja">高</span></span></div><div class="med-desc"><span data-lang="en">Used for heart rhythm disorders. Causes phototoxicity and blue-grey skin discolouration lasting months after stopping.</span><span data-lang="zh">用于心律失常。引起光毒反应，停药后皮肤可能出现持续数月的蓝灰色变色。</span><span data-lang="ko">심장 리듬 장애에 사용. 광독성을 유발하며 복용 중단 후 수개월간 피부의 청회색 변색이 지속될 수 있습니다.</span><span data-lang="ja">心律障害に使用。光毒性を引き起こし、中止後数ヶ月間、皮膚の青灰色変色が持続する場合があります。</span></div></div>
+      <div class="med-card"><div class="med-category"><span data-lang="en">Mental health</span><span data-lang="zh">精神健康</span><span data-lang="ko">정신 건강</span><span data-lang="ja">精神的健康</span></div><div class="med-name"><span data-lang="en">Phenothiazines</span><span data-lang="zh">吩噻嗪类</span><span data-lang="ko">페노티아진</span><span data-lang="ja">フェノチアジン系</span><span class="risk-pill risk-high"><span data-lang="en">High</span><span data-lang="zh">高</span><span data-lang="ko">높음</span><span data-lang="ja">高</span></span></div><div class="med-desc"><span data-lang="en">Chlorpromazine, promethazine. Significant phototoxic and photoallergic reactions possible.</span><span data-lang="zh">氯丙嗪、异丙嗪。可能发生显著的光毒性和光过敏反应。</span><span data-lang="ko">클로르프로마진, 프로메타진. 상당한 광독성 및 광알레르기 반응이 가능합니다.</span><span data-lang="ja">クロルプロマジン、プロメタジン。著しい光毒性および光アレルギー反応の可能性があります。</span></div></div>
+      <div class="med-card"><div class="med-category"><span data-lang="en">Skin / Acne</span><span data-lang="zh">皮肤 / 痤疮</span><span data-lang="ko">피부 / 여드름</span><span data-lang="ja">皮膚 / ニキビ</span></div><div class="med-name"><span data-lang="en">Retinoids</span><span data-lang="zh">维A酸类</span><span data-lang="ko">레티노이드</span><span data-lang="ja">レチノイド</span><span class="risk-pill risk-high"><span data-lang="en">High</span><span data-lang="zh">高</span><span data-lang="ko">높음</span><span data-lang="ja">高</span></span></div><div class="med-desc"><span data-lang="en">Isotretinoin, tretinoin. Thin and sensitise the skin — daily SPF 50+ is essential throughout treatment.</span><span data-lang="zh">异维A酸、维A酸。使皮肤变薄并增加敏感性——治疗期间每日使用SPF 50+至关重要。</span><span data-lang="ko">이소트레티노인, 트레티노인. 피부를 얇고 민감하게 만듭니다 — 치료 기간 동안 매일 SPF 50+가 필수입니다.</span><span data-lang="ja">イソトレチノイン、トレチノイン。皮膚を薄くし感受性を高めます — 治療中は毎日SPF 50+が不可欠です。</span></div></div>
+      <div class="med-card"><div class="med-category"><span data-lang="en">Anti-inflammatory</span><span data-lang="zh">消炎药</span><span data-lang="ko">항염증제</span><span data-lang="ja">抗炎症薬</span></div><div class="med-name"><span data-lang="en">Some NSAIDs</span><span data-lang="zh">部分非甾体抗炎药</span><span data-lang="ko">일부 NSAIDs</span><span data-lang="ja">一部のNSAID</span><span class="risk-pill risk-mod"><span data-lang="en">Moderate</span><span data-lang="zh">中等</span><span data-lang="ko">중간</span><span data-lang="ja">中程度</span></span></div><div class="med-desc"><span data-lang="en">Piroxicam, ketoprofen. Particularly with topical application — photoallergic contact reactions possible.</span><span data-lang="zh">吡罗昔康、酮洛芬。特别是外用时——可能发生光过敏性接触反应。</span><span data-lang="ko">피록시캄, 케토프로펜. 특히 국소 적용 시 — 광알레르기 접촉 반응이 가능합니다.</span><span data-lang="ja">ピロキシカム、ケトプロフェン。特に外用塗布時 — 光アレルギー性接触反応の可能性があります。</span></div></div>
+      <div class="med-card"><div class="med-category"><span data-lang="en">Diabetes</span><span data-lang="zh">糖尿病</span><span data-lang="ko">당뇨</span><span data-lang="ja">糖尿病</span></div><div class="med-name"><span data-lang="en">Sulfonylureas</span><span data-lang="zh">磺脲类</span><span data-lang="ko">설포닐우레아</span><span data-lang="ja">スルホニル尿素系</span><span class="risk-pill risk-mod"><span data-lang="en">Moderate</span><span data-lang="zh">中等</span><span data-lang="ko">중간</span><span data-lang="ja">中程度</span></span></div><div class="med-desc"><span data-lang="en">Glibenclamide, glipizide. Photosensitivity reactions possible, more common at higher doses.</span><span data-lang="zh">格列本脲、格列吡嗪。可能发生光敏反应，剂量较高时更常见。</span><span data-lang="ko">글리벤클라미드, 글리피지드. 광과민성 반응 가능, 고용량에서 더 흔합니다.</span><span data-lang="ja">グリベンクラミド、グリピジド。光感受性反応の可能性、高用量でより一般的。</span></div></div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-title"><span data-lang="en">Two types of reactions</span><span data-lang="zh">两种反应类型</span><span data-lang="ko">두 가지 반응 유형</span><span data-lang="ja">2種類の反応</span></div>
+    <div class="reaction-grid">
+      <div class="reaction-box phototoxic"><div class="reaction-title"><span data-lang="en">Phototoxic reaction</span><span data-lang="zh">光毒性反应</span><span data-lang="ko">광독성 반응</span><span data-lang="ja">光毒性反応</span></div><p><span data-lang="en">Like a severe exaggerated sunburn. Affects most people on the medication. Occurs within minutes to hours of UV exposure. Most common type.</span><span data-lang="zh">类似严重的夸大晒伤。影响大多数服用该药物的人。在紫外线照射后数分钟至数小时内发生。最常见类型。</span><span data-lang="ko">심한 일광화상처럼 나타납니다. 해당 약물을 복용하는 대부분의 사람에게 영향을 미칩니다. 자외선 노출 후 수분에서 수시간 내에 발생합니다.</span><span data-lang="ja">重篤な誇張した日焼けのようなもの。薬を服用しているほとんどの人に影響します。UV暴露後数分から数時間で発生します。</span></p></div>
+      <div class="reaction-box photoallergic"><div class="reaction-title"><span data-lang="en">Photoallergic reaction</span><span data-lang="zh">光过敏反应</span><span data-lang="ko">광알레르기 반응</span><span data-lang="ja">光アレルギー反応</span></div><p><span data-lang="en">An immune-mediated reaction. Occurs in sensitised individuals only. May spread beyond sun-exposed areas and can persist after stopping the medication.</span><span data-lang="zh">免疫介导的反应。仅发生在已致敏个体。可能蔓延至日晒区域以外，停药后仍可能持续。</span><span data-lang="ko">면역 매개 반응입니다. 감작된 개인에게만 발생합니다. 햇볕에 노출된 부위 밖으로 퍼질 수 있으며 약을 중단한 후에도 지속될 수 있습니다.</span><span data-lang="ja">免疫介在性の反応。感作された人にのみ発生します。日光暴露部位を超えて広がる場合があり、薬の中止後も持続することがあります。</span></p></div>
+    </div>
+  </div>
+  <div class="alert alert-success"><strong><span data-lang="en">Ask your pharmacist — </span><span data-lang="zh">咨询您的药剂师 — </span><span data-lang="ko">약사에게 문의하세요 — </span><span data-lang="ja">薬剤師に相談 — </span></strong><span data-lang="en">"Does any of my medication increase my sensitivity to the sun?" Your pharmacist can review all your medicines and provide personalised advice.</span><span data-lang="zh">"我的药物中有哪些会增加对阳光的敏感性？"您的药剂师可以审查您所有的药物并提供个性化建议。</span><span data-lang="ko">"제 약 중 자외선 민감성을 높이는 것이 있나요?" 약사가 모든 약물을 검토하고 개인 맞춤 조언을 제공할 수 있습니다.</span><span data-lang="ja">「私の薬の中に日光への感受性を高めるものはありますか？」薬剤師がすべての薬を確認し、個別のアドバイスを提供できます。</span></div>
+</div>
+
+<!-- ─── PROTECT TAB ────────────────────────────────────────────── -->
+<div id="tab-protect" class="tab-panel">
+  <div class="section-header"><h2><span data-lang="en">How to protect yourself</span><span data-lang="zh">如何保护自己</span><span data-lang="ko">자신을 보호하는 방법</span><span data-lang="ja">自分を守る方法</span></h2></div>
+  <div class="card">
+    <div class="card-title"><span data-lang="en">The SunSmart 5 steps</span><span data-lang="zh">SunSmart 五步法</span><span data-lang="ko">SunSmart 5단계</span><span data-lang="ja">サンスマート5ステップ</span></div>
+    <div class="tips-grid">
+      <div class="tip-card"><span class="tip-emoji">🧴</span><div class="tip-title"><span data-lang="en">Sunscreen</span><span data-lang="zh">防晒霜</span><span data-lang="ko">선크림</span><span data-lang="ja">日焼け止め</span></div><div class="tip-desc"><span data-lang="en">SPF 50+ broad-spectrum. Apply 20 min before. Reapply every 2 hours.</span><span data-lang="zh">SPF 50+广谱。出门前20分钟涂抹。每2小时重新涂抹。</span><span data-lang="ko">SPF 50+ 광범위. 외출 20분 전 바르세요. 2시간마다 재도포.</span><span data-lang="ja">SPF 50+ブロードスペクトラム。20分前に塗布。2時間ごとに塗り直す。</span></div></div>
+      <div class="tip-card"><span class="tip-emoji">👕</span><div class="tip-title"><span data-lang="en">Clothing</span><span data-lang="zh">防护服装</span><span data-lang="ko">의류</span><span data-lang="ja">衣類</span></div><div class="tip-desc"><span data-lang="en">UPF-rated long sleeves and pants. Cover as much skin as possible.</span><span data-lang="zh">UPF认证长袖和长裤。尽量覆盖更多皮肤。</span><span data-lang="ko">UPF 등급의 긴소매와 긴바지. 피부를 최대한 덮으세요.</span><span data-lang="ja">UPF認定の長袖と長ズボン。できるだけ多くの肌を覆ってください。</span></div></div>
+      <div class="tip-card"><span class="tip-emoji">👒</span><div class="tip-title"><span data-lang="en">Hat</span><span data-lang="zh">帽子</span><span data-lang="ko">모자</span><span data-lang="ja">帽子</span></div><div class="tip-desc"><span data-lang="en">Broad-brimmed hat (7.5cm+ brim). Protects face, neck, and ears.</span><span data-lang="zh">宽檐帽（7.5cm以上帽檐）。保护面部、颈部和耳朵。</span><span data-lang="ko">넓은 챙 모자 (7.5cm 이상). 얼굴, 목, 귀를 보호합니다.</span><span data-lang="ja">広いつばの帽子（7.5cm以上）。顔、首、耳を保護します。</span></div></div>
+      <div class="tip-card"><span class="tip-emoji">🕶</span><div class="tip-title"><span data-lang="en">Sunglasses</span><span data-lang="zh">太阳镜</span><span data-lang="ko">선글라스</span><span data-lang="ja">サングラス</span></div><div class="tip-desc"><span data-lang="en">Wraparound sunglasses meeting Australian standard AS/NZS 1067.</span><span data-lang="zh">符合澳大利亚标准AS/NZS 1067的包边太阳镜。</span><span data-lang="ko">호주 표준 AS/NZS 1067을 충족하는 랩어라운드 선글라스.</span><span data-lang="ja">オーストラリア規格AS/NZS 1067に準拠したラップアラウンドサングラス。</span></div></div>
+      <div class="tip-card"><span class="tip-emoji">🌳</span><div class="tip-title"><span data-lang="en">Seek shade</span><span data-lang="zh">寻找阴凉</span><span data-lang="ko">그늘 찾기</span><span data-lang="ja">日陰を探す</span></div><div class="tip-desc"><span data-lang="en">Especially 10am–2pm when UV is strongest.</span><span data-lang="zh">特别是上午10点至下午2点紫外线最强时。</span><span data-lang="ko">자외선이 가장 강한 오전 10시~오후 2시.</span><span data-lang="ja">特にUVが最も強い午前10時〜午後2時。</span></div></div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-title"><span data-lang="en">Extra steps if you take photosensitising medications</span><span data-lang="zh">服用光敏性药物的额外防护步骤</span><span data-lang="ko">광과민성 약물 복용 시 추가 조치</span><span data-lang="ja">光感受性の薬を服用している場合の追加手順</span></div>
+    <div class="steps-list">
+      <div class="step"><div class="step-num">01</div><p><span data-lang="en"><strong>Make SPF 50+ sunscreen part of your daily morning routine</strong> — apply to all exposed skin, including the back of hands, ears, and neck. UV penetrates windows and clouds.</span><span data-lang="zh"><strong>将SPF 50+防晒霜纳入您的日常晨间护理</strong>——涂抹于所有外露皮肤，包括手背、耳朵和颈部。紫外线能穿透窗户和云层。</span><span data-lang="ko"><strong>SPF 50+ 선크림을 매일 아침 루틴의 일부로 만드세요</strong> — 손등, 귀, 목을 포함한 모든 노출된 피부에 바르세요.</span><span data-lang="ja"><strong>SPF 50+日焼け止めを毎朝のルーティンに</strong> — 手の甲、耳、首を含むすべての露出した肌に塗布してください。</span></p></div>
+      <div class="step"><div class="step-num">02</div><p><span data-lang="en"><strong>If you develop a rash, redness, or blistering after sun exposure</strong>, contact your GP or pharmacist promptly. Do not ignore skin changes.</span><span data-lang="zh"><strong>如果日晒后出现皮疹、发红或起泡</strong>，请及时联系您的全科医生或药剂师。不要忽视皮肤变化。</span><span data-lang="ko"><strong>햇볕 노출 후 발진, 홍조 또는 물집이 생기면</strong> 즉시 GP나 약사에게 연락하세요.</span><span data-lang="ja"><strong>日光暴露後に発疹、発赤、水疱が生じた場合</strong>、すぐにGPまたは薬剤師に連絡してください。</span></p></div>
+      <div class="step"><div class="step-num">03</div><p><span data-lang="en"><strong>Do not stop your medication</strong> without speaking to your doctor — manage sun exposure instead.</span><span data-lang="zh"><strong>未经医生同意，请勿停药</strong>——而是管理日晒时间。</span><span data-lang="ko"><strong>의사와 상담 없이 약을 중단하지 마세요</strong> — 대신 햇볕 노출을 관리하세요.</span><span data-lang="ja"><strong>医師の相談なしに薬を中止しないでください</strong> — 代わりに日光暴露を管理してください。</span></p></div>
+      <div class="step"><div class="step-num">04</div><p><span data-lang="en"><strong>Reactions from some medications (e.g. amiodarone) can persist for months</strong> after stopping. Continue sun protection even after you stop the medication.</span><span data-lang="zh"><strong>某些药物（如胺碘酮）的反应在停药后可能持续数月</strong>。即使停药后也应继续防晒。</span><span data-lang="ko"><strong>일부 약물의 반응은 복용 중단 후 수개월간 지속될 수 있습니다</strong>. 약을 중단한 후에도 자외선 차단을 계속하세요.</span><span data-lang="ja"><strong>一部の薬による反応は、中止後数ヶ月間持続することがあります</strong>。薬を中止した後も日焼け対策を続けてください。</span></p></div>
+    </div>
+  </div>
+</div>
+
+<!-- ─── SUNSCREENS TAB ─────────────────────────────────────────── -->
+<div id="tab-sunscreens" class="tab-panel">
+  <div class="section-header">
+    <h2><span data-lang="en">Sunscreen products</span><span data-lang="zh">防晒产品</span><span data-lang="ko">선크림 제품</span><span data-lang="ja">日焼け止め製品</span></h2>
+    <p><span data-lang="en">Products recommended or stocked at this pharmacy. Click Edit to update any card, or add new products below. Changes are saved automatically.</span><span data-lang="zh">本药房推荐或库存的产品。点击编辑更新任意卡片，或在下方添加新产品。更改自动保存。</span><span data-lang="ko">이 약국에서 추천하거나 재고가 있는 제품입니다. 편집을 눌러 업데이트하거나 아래에 새 제품을 추가하세요.</span><span data-lang="ja">この薬局で推奨または在庫している製品。編集をクリックして更新するか、下に追加してください。</span></p>
+  </div>
+  <div class="filters-row">
+    <button class="filter-btn active" onclick="filterProducts('all',this)"><span data-lang="en">All</span><span data-lang="zh">全部</span><span data-lang="ko">전체</span><span data-lang="ja">すべて</span></button>
+    <button class="filter-btn" onclick="filterProducts('face',this)"><span data-lang="en">Face</span><span data-lang="zh">面部</span><span data-lang="ko">얼굴</span><span data-lang="ja">顔</span></button>
+    <button class="filter-btn" onclick="filterProducts('body',this)"><span data-lang="en">Body</span><span data-lang="zh">身体</span><span data-lang="ko">바디</span><span data-lang="ja">ボディ</span></button>
+    <button class="filter-btn" onclick="filterProducts('sensitive',this)"><span data-lang="en">Sensitive skin</span><span data-lang="zh">敏感肌肤</span><span data-lang="ko">민감성 피부</span><span data-lang="ja">敏感肌</span></button>
+    <button class="filter-btn" onclick="filterProducts('kids',this)"><span data-lang="en">Kids</span><span data-lang="zh">儿童</span><span data-lang="ko">어린이</span><span data-lang="ja">子ども</span></button>
+    <button class="filter-btn" onclick="filterProducts('sport',this)"><span data-lang="en">Sport / Water resistant</span><span data-lang="zh">运动/防水</span><span data-lang="ko">스포츠/방수</span><span data-lang="ja">スポーツ/耐水</span></button>
+  </div>
+  <div class="products-grid" id="productsGrid"></div>
+  <button class="add-product-btn" onclick="openModal()">
+    <span class="add-icon">+</span>
+    <span data-lang="en">Add a sunscreen product</span><span data-lang="zh">添加防晒产品</span><span data-lang="ko">선크림 제품 추가</span><span data-lang="ja">日焼け止め製品を追加</span>
+  </button>
+</div>
+
+<!-- ─── SKIN CANCER TAB ───────────────────────────────────────── -->
+<div id="tab-skincancer" class="tab-panel">
+  <div class="section-header">
+    <h2><span data-lang="en">Recognising signs of skin cancer</span><span data-lang="zh">识别皮肤癌的征兆</span><span data-lang="ko">피부암 징후 인식하기</span><span data-lang="ja">皮膚がんのサインを知る</span></h2>
+    <p><span data-lang="en">Australia has one of the highest rates of skin cancer in the world. Between 95–99% of skin cancers are caused by UV exposure — making sun protection a direct form of cancer prevention.</span><span data-lang="zh">澳大利亚是世界上皮肤癌发病率最高的国家之一。95–99%的皮肤癌由紫外线暴露引起，因此防晒直接预防癌症。</span><span data-lang="ko">호주는 세계에서 피부암 발생률이 가장 높은 나라 중 하나입니다. 피부암의 95~99%가 자외선 노출로 인해 발생합니다.</span><span data-lang="ja">オーストラリアは世界で最も皮膚がんの発生率が高い国の一つです。皮膚がんの95〜99%はUV暴露が原因です。</span></p>
+  </div>
+  <div class="card">
+    <div class="card-title"><span data-lang="en">Skin cancer in Australia</span><span data-lang="zh">澳大利亚皮肤癌概况</span><span data-lang="ko">호주의 피부암 현황</span><span data-lang="ja">オーストラリアの皮膚がん</span></div>
+    <div class="sc-stats-grid">
+      <div class="sc-stat"><div class="sc-stat-num">2 in 3</div><div class="sc-stat-label"><span data-lang="en">Australians diagnosed with skin cancer in their lifetime</span><span data-lang="zh">澳大利亚人一生中被诊断出皮肤癌</span><span data-lang="ko">호주인이 평생 피부암 진단을 받음</span><span data-lang="ja">オーストラリア人が生涯に皮膚がんと診断される</span></div></div>
+      <div class="sc-stat"><div class="sc-stat-num">~18,200</div><div class="sc-stat-label"><span data-lang="en">Melanoma diagnoses in Australia in 2023</span><span data-lang="zh">2023年澳大利亚黑色素瘤诊断数</span><span data-lang="ko">2023년 호주 흑색종 진단 건수</span><span data-lang="ja">2023年のオーストラリアのメラノーマ診断数</span></div></div>
+      <div class="sc-stat"><div class="sc-stat-num">1 in 17</div><div class="sc-stat-label"><span data-lang="en">Australians will be diagnosed with melanoma by age 85</span><span data-lang="zh">澳大利亚人在85岁前将被诊断出黑色素瘤</span><span data-lang="ko">호주인이 85세까지 흑색종 진단을 받음</span><span data-lang="ja">85歳までにメラノーマと診断される</span></div></div>
+      <div class="sc-stat"><div class="sc-stat-num">1.1M+</div><div class="sc-stat-label"><span data-lang="en">Non-melanoma skin cancer treatments given annually in Australia</span><span data-lang="zh">澳大利亚每年进行的非黑色素瘤皮肤癌治疗</span><span data-lang="ko">호주에서 매년 시행되는 비흑색종 피부암 치료 건수</span><span data-lang="ja">オーストラリアで毎年行われる非メラノーマ皮膚がん治療数</span></div></div>
+    </div>
+    <p style="font-size:11px;color:var(--text-light);margin-top:12px;"><span data-lang="en">Sources: Cancer Council Australia (2024); AIHW Cancer data in Australia 2024; Australian Skin Cancer Foundation.</span><span data-lang="zh">来源：澳大利亚癌症委员会（2024）；AIHW 2024年澳大利亚癌症数据；澳大利亚皮肤癌基金会。</span><span data-lang="ko">출처: Cancer Council Australia(2024); AIHW 2024년 암 데이터; 호주 피부암 재단.</span><span data-lang="ja">出典：Cancer Council Australia（2024）；AIHW がんデータ2024；オーストラリア皮膚がん財団。</span></p>
+  </div>
+  <div class="card">
+    <div class="card-title"><span data-lang="en">The three main types of skin cancer</span><span data-lang="zh">三种主要皮肤癌类型</span><span data-lang="ko">세 가지 주요 피부암 유형</span><span data-lang="ja">皮膚がんの3つの主な種類</span></div>
+    <div class="sc-types-grid">
+      <div class="sc-type-card bcc">
+        <div class="sc-type-title"><span data-lang="en">Basal Cell Carcinoma</span><span data-lang="zh">基底细胞癌</span><span data-lang="ko">기저세포암</span><span data-lang="ja">基底細胞がん</span></div>
+        <div class="sc-type-subtitle"><span data-lang="en">BCC — most common, least dangerous</span><span data-lang="zh">BCC — 最常见，危险性最低</span><span data-lang="ko">BCC — 가장 흔하고 위험성 낮음</span><span data-lang="ja">BCC — 最も一般的で危険性が低い</span></div>
+        <div class="sc-type-body"><span data-lang="en">Accounts for about 70% of non-melanoma skin cancers. Grows slowly and rarely spreads. Develops most commonly on the head, face, neck, shoulders and back.</span><span data-lang="zh">约占非黑色素瘤皮肤癌的70%。生长缓慢，很少扩散。最常发生在头部、面部、颈部、肩部和背部。</span><span data-lang="ko">비흑색종 피부암의 약 70%를 차지합니다. 천천히 자라며 거의 퍼지지 않습니다. 머리, 얼굴, 목, 어깨, 등에 주로 발생합니다.</span><span data-lang="ja">非メラノーマ皮膚がんの約70%を占めます。ゆっくりと成長し、ほとんど転移しません。</span></div>
+        <div class="sc-type-signs"><strong><span data-lang="en">Warning signs</span><span data-lang="zh">警告征兆</span><span data-lang="ko">경고 징후</span><span data-lang="ja">警告サイン</span></strong><div><span class="sc-sign-pill"><span data-lang="en">Pearly or waxy bump</span><span data-lang="zh">珍珠状或蜡状肿块</span><span data-lang="ko">진주빛 또는 납빛 융기</span><span data-lang="ja">真珠色のしこり</span></span><span class="sc-sign-pill"><span data-lang="en">Flat flesh-coloured lesion</span><span data-lang="zh">扁平肉色病变</span><span data-lang="ko">편평한 살색 병변</span><span data-lang="ja">平らな肌色の病変</span></span><span class="sc-sign-pill"><span data-lang="en">Bleeding or scabbing sore</span><span data-lang="zh">出血或结痂的溃疡</span><span data-lang="ko">출혈 또는 딱지 생기는 상처</span><span data-lang="ja">出血またはかさぶたのある傷</span></span><span class="sc-sign-pill"><span data-lang="en">Sore that heals and returns</span><span data-lang="zh">愈合后复发的溃疡</span><span data-lang="ko">낫다가 다시 생기는 상처</span><span data-lang="ja">治っては再発する傷</span></span></div></div>
+      </div>
+      <div class="sc-type-card scc">
+        <div class="sc-type-title"><span data-lang="en">Squamous Cell Carcinoma</span><span data-lang="zh">鳞状细胞癌</span><span data-lang="ko">편평세포암</span><span data-lang="ja">扁平上皮がん</span></div>
+        <div class="sc-type-subtitle"><span data-lang="en">SCC — second most common, can spread</span><span data-lang="zh">SCC — 第二常见，可能扩散</span><span data-lang="ko">SCC — 두 번째로 흔하고 전이 가능</span><span data-lang="ja">SCC — 2番目に一般的、転移の可能性あり</span></div>
+        <div class="sc-type-body"><span data-lang="en">About 30% of non-melanoma skin cancers. Grows quickly over weeks or months. Appears on sun-exposed areas — head, neck, hands, forearms. Can spread if untreated.</span><span data-lang="zh">约占非黑色素瘤皮肤癌的30%。在数周或数月内快速生长。出现在日晒部位——头部、颈部、手部、前臂。若不治疗可能扩散。</span><span data-lang="ko">비흑색종 피부암의 약 30%를 차지합니다. 수주 또는 수개월에 걸쳐 빠르게 자랍니다. 치료하지 않으면 퍼질 수 있습니다.</span><span data-lang="ja">非メラノーマ皮膚がんの約30%を占めます。急速に成長します。放置すると転移する可能性があります。</span></div>
+        <div class="sc-type-signs"><strong><span data-lang="en">Warning signs</span><span data-lang="zh">警告征兆</span><span data-lang="ko">경고 징후</span><span data-lang="ja">警告サイン</span></strong><div><span class="sc-sign-pill"><span data-lang="en">Firm red nodule</span><span data-lang="zh">坚实的红色结节</span><span data-lang="ko">단단한 붉은 결절</span><span data-lang="ja">硬い赤い結節</span></span><span class="sc-sign-pill"><span data-lang="en">Thickened red scaly spot</span><span data-lang="zh">增厚的红色鳞状斑点</span><span data-lang="ko">두꺼워진 붉고 비늘 같은 반점</span><span data-lang="ja">肥厚した赤いうろこ状の斑点</span></span><span class="sc-sign-pill"><span data-lang="en">Flat lesion with crusted surface</span><span data-lang="zh">表面结痂的扁平病变</span><span data-lang="ko">딱지 있는 편평한 병변</span><span data-lang="ja">かさぶた状の表面を持つ病変</span></span><span class="sc-sign-pill"><span data-lang="en">Rough wart-like growth</span><span data-lang="zh">粗糙的疣状增生</span><span data-lang="ko">거칠고 사마귀 같은 성장물</span><span data-lang="ja">粗いいぼ状の増殖</span></span></div></div>
+      </div>
+      <div class="sc-type-card mel">
+        <div class="sc-type-title"><span data-lang="en">Melanoma</span><span data-lang="zh">黑色素瘤</span><span data-lang="ko">흑색종</span><span data-lang="ja">メラノーマ</span></div>
+        <div class="sc-type-subtitle"><span data-lang="en">Most serious — can spread rapidly</span><span data-lang="zh">最严重——可能迅速扩散</span><span data-lang="ko">가장 심각 — 빠르게 전이 가능</span><span data-lang="ja">最も深刻 — 急速に転移する可能性あり</span></div>
+        <div class="sc-type-body"><span data-lang="en">Rarest but most dangerous. Can occur on any part of the body, including areas never exposed to the sun. When detected early, the 5-year survival rate is 99%.</span><span data-lang="zh">最罕见但最危险。可发生在身体任何部位，包括从未暴露于阳光的部位。早期发现时，5年生存率为99%。</span><span data-lang="ko">가장 드물지만 가장 위험합니다. 햇볕이 닿지 않는 부위를 포함한 신체 어느 곳에서나 발생할 수 있습니다. 조기 발견 시 5년 생존율은 99%입니다.</span><span data-lang="ja">最もまれですが最も危険です。早期発見時の5年生存率は99%です。</span></div>
+        <div class="sc-type-signs"><strong><span data-lang="en">Warning signs</span><span data-lang="zh">警告征兆</span><span data-lang="ko">경고 징후</span><span data-lang="ja">警告サイン</span></strong><div><span class="sc-sign-pill"><span data-lang="en">Change in existing mole</span><span data-lang="zh">现有痣的变化</span><span data-lang="ko">기존 점의 변화</span><span data-lang="ja">既存のほくろの変化</span></span><span class="sc-sign-pill"><span data-lang="en">New unusual spot</span><span data-lang="zh">新的异常斑点</span><span data-lang="ko">새로운 비정상적인 반점</span><span data-lang="ja">新しい異常な斑点</span></span><span class="sc-sign-pill"><span data-lang="en">Itching, bleeding or crusting</span><span data-lang="zh">瘙痒、出血或结痂</span><span data-lang="ko">가려움, 출혈 또는 딱지</span><span data-lang="ja">かゆみ、出血、かさぶた</span></span><span class="sc-sign-pill"><span data-lang="en">Multi-coloured lesion</span><span data-lang="zh">多色病变</span><span data-lang="ko">다색 병변</span><span data-lang="ja">多色の病変</span></span></div></div>
+      </div>
+    </div>
+    <p style="font-size:11px;color:var(--text-light);margin-top:14px;"><span data-lang="en">Sources: Cancer Council Australia — Understanding Skin Cancer (Jan 2024); Healthdirect Australia; Cancer Council WA.</span><span data-lang="zh">来源：澳大利亚癌症委员会——了解皮肤癌（2024年1月）；澳大利亚健康直通；西澳癌症委员会。</span><span data-lang="ko">출처: Cancer Council Australia(2024년 1월); Healthdirect Australia; Cancer Council WA.</span><span data-lang="ja">出典：Cancer Council Australia（2024年1月）；Healthdirect Australia；Cancer Council WA。</span></p>
+  </div>
+  <div class="card">
+    <div class="card-title"><span data-lang="en">The ABCDE rule — checking for melanoma</span><span data-lang="zh">ABCDE原则——检查黑色素瘤</span><span data-lang="ko">ABCDE 규칙 — 흑색종 확인</span><span data-lang="ja">ABCDEルール — メラノーマのチェック</span></div>
+    <p style="font-size:14px;color:var(--text-muted);margin-bottom:16px;"><span data-lang="en">Used by Cancer Council Australia and dermatologists to identify suspicious spots. Check any mole or spot against all five criteria.</span><span data-lang="zh">由澳大利亚癌症委员会和皮肤科医生用于识别可疑斑点。对照所有五个标准检查任何痣或斑点。</span><span data-lang="ko">Cancer Council Australia와 피부과 의사들이 의심스러운 반점을 식별하는 데 사용합니다.</span><span data-lang="ja">Cancer Council Australiaと皮膚科医が不審な斑点を特定するために使用します。</span></p>
+    <div class="abcde-grid">
+      <div class="abcde-card"><div class="abcde-letter">A</div><div class="abcde-word"><span data-lang="en">Asymmetry</span><span data-lang="zh">不对称</span><span data-lang="ko">비대칭</span><span data-lang="ja">非対称</span></div><div class="abcde-desc"><span data-lang="en">One half does not match the other half in shape or size.</span><span data-lang="zh">一半与另一半形状或大小不匹配。</span><span data-lang="ko">한쪽이 다른 쪽과 형태나 크기가 일치하지 않습니다.</span><span data-lang="ja">一方の半分がもう一方と一致しない。</span></div></div>
+      <div class="abcde-card"><div class="abcde-letter">B</div><div class="abcde-word"><span data-lang="en">Border</span><span data-lang="zh">边缘</span><span data-lang="ko">경계</span><span data-lang="ja">境界</span></div><div class="abcde-desc"><span data-lang="en">Edges are irregular, ragged, notched or blurred. Pigment may spread into surrounding skin.</span><span data-lang="zh">边缘不规则、参差不齐、有缺口或模糊。色素可能蔓延到周围皮肤。</span><span data-lang="ko">가장자리가 불규칙하거나 들쭉날쭉하거나 흐릿합니다.</span><span data-lang="ja">縁が不規則、ぎざぎざ、またはぼやけている。</span></div></div>
+      <div class="abcde-card"><div class="abcde-letter">C</div><div class="abcde-word"><span data-lang="en">Colour</span><span data-lang="zh">颜色</span><span data-lang="ko">색상</span><span data-lang="ja">色</span></div><div class="abcde-desc"><span data-lang="en">Multiple colours in one lesion — shades of brown, black, red, white or blue.</span><span data-lang="zh">一个病变中有多种颜色——棕色、黑色、红色、白色或蓝色。</span><span data-lang="ko">하나의 병변에 여러 색상 — 갈색, 검정, 빨강, 흰색 또는 파란색.</span><span data-lang="ja">一つの病変に複数の色 — 茶色、黒、赤、白、または青。</span></div></div>
+      <div class="abcde-card"><div class="abcde-letter">D</div><div class="abcde-word"><span data-lang="en">Diameter</span><span data-lang="zh">直径</span><span data-lang="ko">지름</span><span data-lang="ja">直径</span></div><div class="abcde-desc"><span data-lang="en">Larger than 6mm (pencil eraser), or smaller but growing. Any enlarging spot deserves attention.</span><span data-lang="zh">大于6毫米（铅笔橡皮擦），或更小但正在增大。</span><span data-lang="ko">6mm(연필 지우개)보다 크거나, 더 작지만 커지고 있습니다.</span><span data-lang="ja">6mm（鉛筆の消しゴム）より大きい、またはより小さいが成長中。</span></div></div>
+      <div class="abcde-card"><div class="abcde-letter">E</div><div class="abcde-word"><span data-lang="en">Evolving</span><span data-lang="zh">演变</span><span data-lang="ko">변화</span><span data-lang="ja">変化</span></div><div class="abcde-desc"><span data-lang="en">Any change in size, shape, colour or new symptoms such as itching, bleeding or crusting.</span><span data-lang="zh">大小、形状、颜色的任何变化，或瘙痒、出血或结痂等新症状。</span><span data-lang="ko">크기, 모양, 색상의 변화 또는 가려움, 출혈, 딱지 등 새로운 증상.</span><span data-lang="ja">サイズ、形、色の変化、またはかゆみ、出血、かさぶたなどの新しい症状。</span></div></div>
+    </div>
+    <p style="font-size:11px;color:var(--text-light);margin-top:14px;"><span data-lang="en">Source: Cancer Council Australia — Melanoma (May 2024 medical review); American Cancer Society.</span><span data-lang="zh">来源：澳大利亚癌症委员会——黑色素瘤（2024年5月医学审查）；美国癌症协会。</span><span data-lang="ko">출처: Cancer Council Australia — 흑색종(2024년 5월); 미국 암학회.</span><span data-lang="ja">出典：Cancer Council Australia — メラノーマ（2024年5月）；米国がん協会。</span></p>
+  </div>
+  <div class="card">
+    <div class="card-title"><span data-lang="en">The EFG rule — nodular melanoma</span><span data-lang="zh">EFG原则——结节性黑色素瘤</span><span data-lang="ko">EFG 규칙 — 결절성 흑색종</span><span data-lang="ja">EFGルール — 結節性メラノーマ</span></div>
+    <p style="font-size:14px;color:var(--text-muted);margin-bottom:14px;"><span data-lang="en">Nodular melanoma accounts for about 15% of melanoma in Australia. It is aggressive, grows rapidly, and may not follow the ABCDE pattern — it can appear symmetrical and dome-shaped.</span><span data-lang="zh">结节性黑色素瘤约占澳大利亚黑色素瘤的15%。它具有侵袭性，生长迅速，可能不符合ABCDE模式。</span><span data-lang="ko">결절성 흑색종은 호주 흑색종의 약 15%를 차지합니다. 공격적이고 빠르게 자라며 ABCDE 패턴을 따르지 않을 수 있습니다.</span><span data-lang="ja">結節性メラノーマはオーストラリアのメラノーマの約15%を占めます。侵攻性が高く、ABCDEパターンに従わない場合があります。</span></p>
+    <div class="efg-bar">
+      <div class="efg-item"><div class="efg-letter">E</div><div class="efg-word"><span data-lang="en">Elevated</span><span data-lang="zh">隆起</span><span data-lang="ko">융기</span><span data-lang="ja">隆起</span></div><div class="efg-desc"><span data-lang="en">The spot is raised above the skin surface</span><span data-lang="zh">斑点高出皮肤表面</span><span data-lang="ko">반점이 피부 표면 위로 솟아 있음</span><span data-lang="ja">斑点が皮膚表面より隆起している</span></div></div>
+      <div class="efg-item"><div class="efg-letter">F</div><div class="efg-word"><span data-lang="en">Firm</span><span data-lang="zh">坚实</span><span data-lang="ko">단단함</span><span data-lang="ja">硬い</span></div><div class="efg-desc"><span data-lang="en">The spot feels firm or solid to the touch</span><span data-lang="zh">触摸时感觉坚硬或实心</span><span data-lang="ko">만졌을 때 단단하거나 딱딱하게 느껴짐</span><span data-lang="ja">触ると硬いまたは固く感じる</span></div></div>
+      <div class="efg-item"><div class="efg-letter">G</div><div class="efg-word"><span data-lang="en">Growing</span><span data-lang="zh">增长</span><span data-lang="ko">성장</span><span data-lang="ja">成長</span></div><div class="efg-desc"><span data-lang="en">The spot has grown noticeably over 3–4 weeks</span><span data-lang="zh">斑点在3–4周内明显增大</span><span data-lang="ko">반점이 3~4주 내에 눈에 띄게 커짐</span><span data-lang="ja">斑点が3〜4週間で著しく成長している</span></div></div>
+    </div>
+    <p style="font-size:11px;color:var(--text-light);margin-top:12px;"><span data-lang="en">Source: MoleMap Australia — Signs of Skin Cancer: ABCDEFG Guidelines; Cancer Council Australia (2024).</span><span data-lang="zh">来源：MoleMap澳大利亚——皮肤癌征兆：ABCDEFG指南；澳大利亚癌症委员会（2024）。</span><span data-lang="ko">출처: MoleMap Australia — ABCDEFG 지침; Cancer Council Australia(2024).</span><span data-lang="ja">出典：MoleMap Australia — ABCDEFGガイドライン；Cancer Council Australia（2024）。</span></p>
+  </div>
+  <div class="card">
+    <div class="card-title"><span data-lang="en">How to do a monthly skin self-check</span><span data-lang="zh">如何进行每月皮肤自我检查</span><span data-lang="ko">월간 피부 자가 검진 방법</span><span data-lang="ja">月1回の皮膚自己チェックの方法</span></div>
+    <div class="sc-checklist">
+      <div class="sc-check"><span class="sc-check-icon">🪞</span><span data-lang="en"><strong>Use a full-length mirror</strong> in a well-lit room. Examine your entire body front and back, then left and right sides with arms raised.</span><span data-lang="zh"><strong>在光线充足的房间使用全身镜</strong>。检查身体前后，然后举起手臂检查左右两侧。</span><span data-lang="ko"><strong>밝은 방에서 전신 거울을 사용하세요</strong>. 몸의 앞뒤를 검사한 다음 팔을 들어 좌우를 검사하세요.</span><span data-lang="ja"><strong>明るい部屋で全身鏡を使用してください</strong>。体の前後を検査し、次に腕を上げて左右を検査します。</span></div>
+      <div class="sc-check"><span class="sc-check-icon">🔍</span><span data-lang="en"><strong>Check hard-to-see areas</strong> including your scalp, back of neck, between toes, soles of feet, and under fingernails and toenails.</span><span data-lang="zh"><strong>检查难以看到的区域</strong>，包括头皮、颈后、脚趾之间、脚底、指甲和趾甲下方。</span><span data-lang="ko"><strong>보기 어려운 부위를 확인하세요</strong> — 두피, 목 뒤, 발가락 사이, 발바닥, 손발톱 아래 포함.</span><span data-lang="ja"><strong>見えにくい部位を確認してください</strong> — 頭皮、首の後ろ、足の指の間、足の裏、爪の下。</span></div>
+      <div class="sc-check"><span class="sc-check-icon">📸</span><span data-lang="en"><strong>Photograph any suspicious spots</strong> so you can track changes over time. Show the photo to your GP or pharmacist if you are unsure.</span><span data-lang="zh"><strong>拍摄任何可疑斑点</strong>，以便随时间追踪变化。如不确定，请将照片展示给全科医生或药剂师。</span><span data-lang="ko"><strong>의심스러운 반점을 사진으로 찍어두세요</strong>. 확실하지 않으면 GP나 약사에게 사진을 보여주세요.</span><span data-lang="ja"><strong>疑わしい斑点を写真に撮ってください</strong>。不明な場合はGPまたは薬剤師に写真を見せてください。</span></div>
+      <div class="sc-check"><span class="sc-check-icon">🏥</span><span data-lang="en"><strong>Book an annual professional skin check</strong> with your GP or a skin cancer clinic, especially if you have fair skin, a history of sunburn, or many moles.</span><span data-lang="zh"><strong>每年预约专业皮肤检查</strong>，特别是皮肤白皙、有晒伤史或痣多的人。</span><span data-lang="ko"><strong>매년 전문 피부 검진을 예약하세요</strong> — 특히 피부가 밝거나 일광화상 이력이 있거나 점이 많은 경우.</span><span data-lang="ja"><strong>毎年専門的な皮膚検査を予約してください</strong> — 特に色白の肌、日焼けの歴史、またはほくろが多い場合。</span></div>
+    </div>
+  </div>
+  <div class="alert alert-danger">
+    <strong><span data-lang="en">When to seek urgent attention — </span><span data-lang="zh">何时寻求紧急帮助 — </span><span data-lang="ko">즉각적인 주의가 필요한 경우 — </span><span data-lang="ja">緊急の注意が必要な場合 — </span></strong>
+    <span data-lang="en">See your GP as soon as possible if you notice a spot meeting any ABCDE criteria, a sore that does not heal within a few weeks, any spot that bleeds without injury, or any growth that looks different from all other spots on your body (the "ugly duckling" sign).</span>
+    <span data-lang="zh">如果发现符合任何ABCDE标准的斑点、数周内未愈合的溃疡、无故出血的斑点，或看起来与身体其他所有斑点不同的增生（"丑小鸭"征兆），请尽快就医。</span>
+    <span data-lang="ko">ABCDE 기준을 충족하는 반점, 몇 주 내에 낫지 않는 상처, 부상 없이 출혈이 있는 반점, 또는 신체의 다른 모든 반점과 다르게 보이는 성장물("못생긴 오리새끼" 징후)이 있으면 가능한 한 빨리 GP를 방문하세요.</span>
+    <span data-lang="ja">ABCDE基準のいずれかを満たす斑点、数週間以内に治らない傷、怪我なく出血する斑点、または体の他のすべての斑点と異なって見える増殖（「みにくいアヒルの子」サイン）に気づいた場合は、できるだけ早くGPを受診してください。</span>
+  </div>
+  <div class="card">
+    <div class="card-title"><span data-lang="en">Sources used for this section</span><span data-lang="zh">本节使用的来源</span><span data-lang="ko">이 섹션에 사용된 출처</span><span data-lang="ja">このセクションで使用した出典</span></div>
+    <div class="source-list">
+      <div class="source-item">📘 <div><strong>Cancer Council Australia</strong> — Understanding Skin Cancer (January 2024) &amp; Melanoma (May 2024). Reviewed by Prof Victoria Mar &amp; Prof Anne Cust.<br><a href="https://www.cancer.org.au/types-of-cancer/skin-cancer" target="_blank">cancer.org.au/types-of-cancer/skin-cancer</a></div></div>
+      <div class="source-item">📗 <div><strong>Cancer Council NSW</strong> — Skin Cancer (December 2025).<br><a href="https://www.cancercouncil.com.au/skin-cancer/" target="_blank">cancercouncil.com.au/skin-cancer</a></div></div>
+      <div class="source-item">📙 <div><strong>Healthdirect Australia</strong> — Skin cancer and melanomas.<br><a href="https://www.healthdirect.gov.au/skin-cancer-and-melanomas" target="_blank">healthdirect.gov.au/skin-cancer-and-melanomas</a></div></div>
+      <div class="source-item">📕 <div><strong>Australian Skin Cancer Foundation</strong> — Skin Cancer Statistics (AIHW data 2024).<br><a href="https://www.australianskincancerfoundation.org/skin-cancer-australia-statistics" target="_blank">australianskincancerfoundation.org</a></div></div>
+      <div class="source-item">📒 <div><strong>American Cancer Society</strong> — Signs and Symptoms of Melanoma Skin Cancer.<br><a href="https://www.cancer.org/cancer/types/melanoma-skin-cancer/detection-diagnosis-staging/signs-and-symptoms.html" target="_blank">cancer.org</a></div></div>
+      <div class="source-item">📓 <div><strong>MoleMap Australia</strong> — Signs of Skin Cancer: ABCDEFG Guidelines.<br><a href="https://www.molemap.net.au/skin-cancer/7-signs-you-could-be-missing" target="_blank">molemap.net.au</a></div></div>
+    </div>
+  </div>
+</div>
+
+</main>
+
+<!-- ─── MODAL ─────────────────────────────────────────────────── -->
+<div class="modal-overlay" id="modalOverlay" onclick="handleOverlayClick(event)">
+  <div class="modal">
+    <div class="modal-title" id="modalTitle">Add sunscreen product</div>
+    <div class="modal-grid">
+      <div class="form-group modal-full">
+        <label>Product name *</label>
+        <input type="text" id="f-name" placeholder="e.g. Cancer Council Everyday SPF 50+">
+      </div>
+      <div class="form-group">
+        <label>Brand</label>
+        <input type="text" id="f-brand" placeholder="e.g. Cancer Council">
+      </div>
+      <div class="form-group">
+        <label>SPF</label>
+        <select id="f-spf">
+          <option value="">— select —</option>
+          <option>SPF 15</option><option>SPF 30</option><option>SPF 50</option><option>SPF 50+</option>
+        </select>
+      </div>
+      <div class="form-group modal-full">
+        <label>Formulation type</label>
+        <select id="f-type">
+          <option value="">— select —</option>
+          <option>Lotion</option><option>Cream</option><option>Gel</option><option>Spray</option>
+          <option>Stick</option><option>Tinted</option><option>Mineral</option><option>Chemical</option><option>Fluid</option>
+        </select>
+      </div>
+      <div class="form-group modal-full">
+        <label>Best for (select all that apply)</label>
+        <div class="checkbox-group" id="f-tags">
+          <label class="checkbox-pill" onclick="togglePill(this)"><input type="checkbox" value="face"> Face</label>
+          <label class="checkbox-pill" onclick="togglePill(this)"><input type="checkbox" value="body"> Body</label>
+          <label class="checkbox-pill" onclick="togglePill(this)"><input type="checkbox" value="sensitive"> Sensitive skin</label>
+          <label class="checkbox-pill" onclick="togglePill(this)"><input type="checkbox" value="kids"> Kids</label>
+          <label class="checkbox-pill" onclick="togglePill(this)"><input type="checkbox" value="sport"> Sport</label>
+          <label class="checkbox-pill" onclick="togglePill(this)"><input type="checkbox" value="water"> Water resistant</label>
+          <label class="checkbox-pill" onclick="togglePill(this)"><input type="checkbox" value="daily"> Daily use</label>
+          <label class="checkbox-pill" onclick="togglePill(this)"><input type="checkbox" value="tinted"> Tinted / makeup</label>
+        </div>
+      </div>
+      <div class="form-group modal-full">
+        <label>Pharmacist notes (optional)</label>
+        <textarea id="f-notes" placeholder="e.g. Good option for patients on doxycycline. Fragrance-free, non-comedogenic."></textarea>
+      </div>
+    </div>
+    <div class="modal-actions">
+      <button class="btn-cancel" onclick="closeModal()">Cancel</button>
+      <button class="btn-save" onclick="saveProduct()">Save product</button>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <strong>Sydney Olympic Park Community Pharmacy — Public Health Initiative</strong><br>
+  <span data-lang="en">Developed as part of a pharmacy intern PHI project. For general education only. Always consult your pharmacist or GP for personalised advice.</span>
+  <span data-lang="zh">作为药房实习生公共卫生项目开发。仅供一般教育目的。如需个性化建议，请咨询您的药剂师或全科医生。</span>
+  <span data-lang="ko">약학 인턴 PHI 프로젝트의 일환으로 개발되었습니다. 일반 교육 목적으로만 사용됩니다. 개인 맞춤 조언은 약사나 GP와 상담하세요.</span>
+  <span data-lang="ja">薬局インターンPHIプロジェクトの一環として開発。一般的な教育目的のみ。個別のアドバイスは薬剤師またはGPに相談してください。</span>
+  <br><br>Sources: Cancer Council Australia (2024), Cancer Council NSW (2025), Healthdirect Australia, AIHW Cancer Data 2024, Australian Skin Cancer Foundation, American Cancer Society, MoleMap Australia, NPS MedicineWise, RACGP, MIMS Australia
+</footer>
+
+<script>
+// ── Calculator ────────────────────────────────────────────────────
+const MED_BASE={1:200,2:250,3:300,4:450,5:600,6:1000};
+let timerInterval=null,timerTotalSec=0,timerEndTime=null,currentLang='en';
+
+function setLang(lang,btn){
+  currentLang=lang;document.body.className='lang-'+lang;
+  document.querySelectorAll('.lang-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');document.documentElement.lang=lang;
+  updateSelectOptions();calculate();
+}
+function updateSelectOptions(){
+  ['skinType','uvIndex','spf'].forEach(id=>{
+    const sel=document.getElementById(id);if(!sel)return;
+    Array.from(sel.options).forEach(opt=>{const t=opt.getAttribute('data-'+currentLang);if(t)opt.text=t;});
+  });
+}
+function switchTab(name,el){
+  document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
+  document.getElementById('tab-'+name).classList.add('active');el.classList.add('active');
+}
+function calculate(){
+  const skin=parseInt(document.getElementById('skinType').value);
+  const uv=parseFloat(document.getElementById('uvIndex').value);
+  const spfM=parseFloat(document.getElementById('spf').value);
+  const mins=Math.round((MED_BASE[skin]/(uv*0.025*60))*spfM);
+  const rc=document.getElementById('resultCard'),rt=document.getElementById('resultTime'),rl=document.getElementById('resultLabel');
+  const labels={
+    tooShort:{en:'< 5 min — seek shade immediately',zh:'< 5分钟——立即寻找阴凉',ko:'5분 미만 — 즉시 그늘로',ja:'5分未満 — すぐに日陰へ'},
+    long:{en:'8+ hours — low burn risk today',zh:'8小时以上——今天晒伤风险低',ko:'8시간 이상 — 오늘 화상 위험 낮음',ja:'8時間以上 — 今日の日焼けリスク低'},
+    est:{en:'Estimated safe time before burning',zh:'预计晒伤前的安全时间',ko:'화상 전 안전 추정 시간',ja:'日焼けまでの推定安全時間'}
+  };
+  const l=currentLang;
+  if(mins<5){rt.textContent=labels.tooShort[l].split('—')[0].trim();rl.textContent=labels.tooShort[l].split('—')[1]?.trim()||'';rc.className='result-card danger';}
+  else if(mins>480){rt.textContent=labels.long[l].split('—')[0].trim();rl.textContent=labels.long[l].split('—')[1]?.trim()||'';rc.className='result-card safe';}
+  else{
+    rt.textContent=mins>=60?(Math.floor(mins/60)+(mins%60?'h '+mins%60+'m':'h')):mins+' min';
+    rl.textContent=labels.est[l];
+    rc.className=mins<20?'result-card danger':mins<60?'result-card caution':'result-card safe';
+  }
+  document.getElementById('uvPin').style.left=Math.min((uv-1)/10*92,92)+'%';
+  timerTotalSec=Math.min(Math.max(mins,1),480)*60;
+  document.getElementById('ringNum').textContent=mins>480?'8+':mins>=60?Math.floor(mins/60)+(mins%60?':'+String(mins%60).padStart(2,'0'):''):mins;
+  document.getElementById('ringUnit').textContent=({en:mins>=60?'hr':'min',zh:mins>=60?'小时':'分钟',ko:mins>=60?'시간':'분',ja:mins>=60?'時間':'分'})[currentLang]||'min';
+  document.getElementById('ringProgress').style.strokeDashoffset=376;
+  document.getElementById('ringProgress').style.stroke=mins<20?'#EF4444':mins<60?'#F59E0B':'#10B981';
+  if(timerInterval){clearInterval(timerInterval);timerInterval=null;resetTimerBtn();}
+}
+function resetTimerBtn(){
+  document.getElementById('timerBtn').classList.remove('running');
+  document.getElementById('timerMsg').textContent='';
+  const l={en:'▶ Start timer',zh:'▶ 开始计时',ko:'▶ 타이머 시작',ja:'▶ タイマー開始'};
+  document.getElementById('timerBtnText').innerHTML='<span data-lang="'+currentLang+'">'+l[currentLang]+'</span>';
+}
+function toggleTimer(){
+  if(timerInterval){clearInterval(timerInterval);timerInterval=null;document.getElementById('ringProgress').style.strokeDashoffset=376;resetTimerBtn();return;}
+  document.getElementById('timerBtn').classList.add('running');
+  const sl={en:'■ Stop',zh:'■ 停止',ko:'■ 중지',ja:'■ 停止'};
+  document.getElementById('timerBtnText').innerHTML='<span>'+sl[currentLang]+'</span>';
+  timerEndTime=Date.now()+timerTotalSec*1000;
+  const ring=document.getElementById('ringProgress'),numEl=document.getElementById('ringNum'),unitEl=document.getElementById('ringUnit');
+  timerInterval=setInterval(()=>{
+    const remaining=Math.max(0,timerEndTime-Date.now());
+    ring.style.strokeDashoffset=376*(remaining/(timerTotalSec*1000));
+    const secs=Math.ceil(remaining/1000);
+    if(secs>=3600){numEl.textContent=Math.ceil(secs/3600);unitEl.textContent=({en:'hr',zh:'小时',ko:'시간',ja:'時間'})[currentLang];}
+    else if(secs>=60){numEl.textContent=Math.ceil(secs/60);unitEl.textContent=({en:'min',zh:'分钟',ko:'분',ja:'分'})[currentLang];}
+    else{numEl.textContent=secs;unitEl.textContent=({en:'sec',zh:'秒',ko:'초',ja:'秒'})[currentLang];}
+    if(remaining<=0){
+      clearInterval(timerInterval);timerInterval=null;resetTimerBtn();ring.style.stroke='#EF4444';
+      const dm={en:'⏰ Time to seek shade and reapply sunscreen!',zh:'⏰ 是时候寻找阴凉处并重新涂抹防晒霜了！',ko:'⏰ 그늘을 찾고 선크림을 다시 바를 시간입니다!',ja:'⏰ 日陰に入り日焼け止めを塗り直す時間です！'};
+      document.getElementById('timerMsg').textContent=dm[currentLang];
+    }
+  },500);
+}
+
+// ── Sunscreen products ────────────────────────────────────────────
+const DEFAULT_PRODUCTS=[
+  {id:1,name:'Cancer Council Everyday SPF 50+',brand:'Cancer Council',spf:'SPF 50+',type:'Lotion',tags:['face','body','daily'],notes:'Lightweight, fragrance-free. Good all-rounder for patients on photosensitising medications.'},
+  {id:2,name:'Invisible Zinc Tinted Day Wear SPF 50+',brand:'Invisible Zinc',spf:'SPF 50+',type:'Tinted',tags:['face','sensitive','tinted','daily'],notes:'Zinc oxide base. Ideal for patients with sensitive or reactive skin.'},
+  {id:3,name:'Banana Boat Kids Sport SPF 50+',brand:'Banana Boat',spf:'SPF 50+',type:'Spray',tags:['body','kids','sport','water'],notes:'Water resistant 4 hours. Suitable for children on doxycycline for acne.'},
+  {id:4,name:'La Roche-Posay Anthelios SPF 50+ Fluid',brand:'La Roche-Posay',spf:'SPF 50+',type:'Fluid',tags:['face','sensitive','daily'],notes:'Recommended for patients on retinoids or thiazide diuretics. Fragrance-free.'},
+  {id:5,name:'Neutrogena Ultra Sheer SPF 50',brand:'Neutrogena',spf:'SPF 50',type:'Lotion',tags:['face','body','daily'],notes:'Non-greasy, absorbs quickly. Good for patients who find heavier sunscreens uncomfortable.'},
+];
+let products=JSON.parse(localStorage.getItem('sunscreen-products')||'null')||DEFAULT_PRODUCTS;
+let editingId=null,activeFilter='all';
+const tagLabels={face:'Face',body:'Body',sensitive:'Sensitive',kids:'Kids',sport:'Sport',water:'Water resistant',daily:'Daily use',tinted:'Tinted'};
+
+function saveToStorage(){localStorage.setItem('sunscreen-products',JSON.stringify(products));}
+function escHtml(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+
+function renderProducts(){
+  const grid=document.getElementById('productsGrid');
+  const filtered=activeFilter==='all'?products:products.filter(p=>p.tags&&p.tags.includes(activeFilter));
+  if(filtered.length===0){
+    grid.innerHTML='<div class="empty-state"><span class="empty-icon">🧴</span><p>No products in this category yet.<br>Add one using the button below.</p></div>';
+    return;
+  }
+  grid.innerHTML=filtered.map(p=>{
+    const tagBadges=(p.tags||[]).map(t=>'<span class="badge badge-neutral">'+(tagLabels[t]||t)+'</span>').join('');
+    return '<div class="product-card">'+
+      '<div><div class="product-name">'+escHtml(p.name)+'</div>'+(p.brand?'<div class="product-brand">'+escHtml(p.brand)+'</div>':'')+
+      '</div><div class="product-badges">'+
+        (p.spf?'<span class="badge badge-spf">'+escHtml(p.spf)+'</span>':'')+
+        (p.type?'<span class="badge badge-type">'+escHtml(p.type)+'</span>':'')+
+        tagBadges+
+      '</div>'+
+      (p.notes?'<div class="product-notes">'+escHtml(p.notes)+'</div>':'')+
+      '<div class="product-actions">'+
+        '<button class="btn-edit" onclick="openModal('+p.id+')">✏ Edit</button>'+
+        '<button class="btn-delete" onclick="deleteProduct('+p.id+')">Delete</button>'+
+      '</div></div>';
+  }).join('');
+}
+
+function filterProducts(tag,btn){
+  activeFilter=tag;
+  document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');renderProducts();
+}
+function togglePill(label){const cb=label.querySelector('input');cb.checked=!cb.checked;label.classList.toggle('checked',cb.checked);}
+
+function openModal(id){
+  editingId=id||null;
+  ['f-name','f-brand','f-notes'].forEach(i=>document.getElementById(i).value='');
+  ['f-spf','f-type'].forEach(i=>document.getElementById(i).value='');
+  document.querySelectorAll('#f-tags input').forEach(cb=>{cb.checked=false;cb.parentElement.classList.remove('checked');});
+  if(id){
+    document.getElementById('modalTitle').textContent='Edit product';
+    const p=products.find(x=>x.id===id);
+    if(p){
+      document.getElementById('f-name').value=p.name||'';
+      document.getElementById('f-brand').value=p.brand||'';
+      document.getElementById('f-notes').value=p.notes||'';
+      document.getElementById('f-spf').value=p.spf||'';
+      document.getElementById('f-type').value=p.type||'';
+      (p.tags||[]).forEach(t=>{const cb=document.querySelector('#f-tags input[value="'+t+'"]');if(cb){cb.checked=true;cb.parentElement.classList.add('checked');}});
+    }
+  } else {
+    document.getElementById('modalTitle').textContent='Add sunscreen product';
+  }
+  document.getElementById('modalOverlay').classList.add('open');
+}
+function closeModal(){document.getElementById('modalOverlay').classList.remove('open');editingId=null;}
+function handleOverlayClick(e){if(e.target===document.getElementById('modalOverlay'))closeModal();}
+
+function saveProduct(){
+  const name=document.getElementById('f-name').value.trim();
+  if(!name){document.getElementById('f-name').style.borderColor='#EF4444';document.getElementById('f-name').focus();return;}
+  document.getElementById('f-name').style.borderColor='';
+  const tags=Array.from(document.querySelectorAll('#f-tags input:checked')).map(cb=>cb.value);
+  const data={name,brand:document.getElementById('f-brand').value.trim(),spf:document.getElementById('f-spf').value,type:document.getElementById('f-type').value,notes:document.getElementById('f-notes').value.trim(),tags};
+  if(editingId){const idx=products.findIndex(p=>p.id===editingId);if(idx>-1)products[idx]={...products[idx],...data};}
+  else{data.id=Date.now();products.push(data);}
+  saveToStorage();renderProducts();closeModal();
+}
+function deleteProduct(id){
+  if(!confirm('Remove this product from the list?'))return;
+  products=products.filter(p=>p.id!==id);saveToStorage();renderProducts();
+}
+
+updateSelectOptions();calculate();renderProducts();
+</script>
+</body>
+</html>
