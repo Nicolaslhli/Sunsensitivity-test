@@ -91,8 +91,8 @@
   .ring-bg{fill:none;stroke:var(--border);stroke-width:10;}
   .ring-progress{fill:none;stroke:var(--sun);stroke-width:10;stroke-linecap:round;stroke-dasharray:376;stroke-dashoffset:376;transition:stroke-dashoffset .8s ease,stroke .3s;}
   .ring-center{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;}
-  .ring-num{font-family:'DM Serif Display',serif;font-size:32px;color:var(--text);line-height:1;}
-  .ring-unit{font-size:12px;color:var(--text-muted);margin-top:2px;}
+  .ring-hms{font-family:'DM Serif Display',serif;font-size:22px;color:var(--text);line-height:1;letter-spacing:0.02em;}
+  .ring-unit{font-size:10px;color:var(--text-muted);margin-top:4px;letter-spacing:0.05em;}
   .timer-btn{display:inline-flex;align-items:center;gap:8px;padding:11px 28px;background:var(--sun);color:#78350F;font-family:inherit;font-size:15px;font-weight:600;border:none;border-radius:100px;cursor:pointer;transition:all .2s;box-shadow:0 2px 8px rgba(245,158,11,.3);}
   .timer-btn:hover{background:#FBBF24;transform:translateY(-1px);}
   .timer-btn.running{background:#FEE2E2;color:#7F1D1D;}
@@ -332,7 +332,15 @@
           <circle class="ring-bg" cx="70" cy="70" r="60"/>
           <circle class="ring-progress" id="ringProgress" cx="70" cy="70" r="60"/>
         </svg>
-        <div class="ring-center"><div class="ring-num" id="ringNum">—</div><div class="ring-unit" id="ringUnit">min</div></div>
+        <div class="ring-center">
+          <div class="ring-hms" id="ringHMS">—</div>
+          <div class="ring-unit" id="ringUnit">
+            <span data-lang="en">hrs : min : sec</span>
+            <span data-lang="zh">时 : 分 : 秒</span>
+            <span data-lang="ko">시 : 분 : 초</span>
+            <span data-lang="ja">時 : 分 : 秒</span>
+          </div>
+        </div>
       </div>
       <button class="timer-btn" id="timerBtn" onclick="toggleTimer()">
         <span id="timerBtnText"><span data-lang="en">▶ Start timer</span><span data-lang="zh">▶ 开始计时</span><span data-lang="ko">▶ 타이머 시작</span><span data-lang="ja">▶ タイマー開始</span></span>
@@ -406,13 +414,13 @@
     <h2><span data-lang="en">Sunscreen products</span><span data-lang="zh">防晒产品</span><span data-lang="ko">선크림 제품</span><span data-lang="ja">日焼け止め製品</span></h2>
     <p><span data-lang="en">Products recommended or stocked at this pharmacy. Click Edit to update any card, or add new products below. Changes are saved automatically.</span><span data-lang="zh">本药房推荐或库存的产品。点击编辑更新任意卡片，或在下方添加新产品。更改自动保存。</span><span data-lang="ko">이 약국에서 추천하거나 재고가 있는 제품입니다. 편집을 눌러 업데이트하거나 아래에 새 제품을 추가하세요.</span><span data-lang="ja">この薬局で推奨または在庫している製品。編集をクリックして更新するか、下に追加してください。</span></p>
   </div>
-  <div class="filters-row">
-    <button class="filter-btn active" onclick="filterProducts('all',this)"><span data-lang="en">All</span><span data-lang="zh">全部</span><span data-lang="ko">전체</span><span data-lang="ja">すべて</span></button>
-    <button class="filter-btn" onclick="filterProducts('face',this)"><span data-lang="en">Face</span><span data-lang="zh">面部</span><span data-lang="ko">얼굴</span><span data-lang="ja">顔</span></button>
-    <button class="filter-btn" onclick="filterProducts('body',this)"><span data-lang="en">Body</span><span data-lang="zh">身体</span><span data-lang="ko">바디</span><span data-lang="ja">ボディ</span></button>
-    <button class="filter-btn" onclick="filterProducts('sensitive',this)"><span data-lang="en">Sensitive skin</span><span data-lang="zh">敏感肌肤</span><span data-lang="ko">민감성 피부</span><span data-lang="ja">敏感肌</span></button>
-    <button class="filter-btn" onclick="filterProducts('kids',this)"><span data-lang="en">Kids</span><span data-lang="zh">儿童</span><span data-lang="ko">어린이</span><span data-lang="ja">子ども</span></button>
-    <button class="filter-btn" onclick="filterProducts('sport',this)"><span data-lang="en">Sport / Water resistant</span><span data-lang="zh">运动/防水</span><span data-lang="ko">스포츠/방수</span><span data-lang="ja">スポーツ/耐水</span></button>
+
+  <div class="alert alert-info" style="margin-bottom:16px;">
+    <strong><span data-lang="en">Independent recommendations — </span><span data-lang="zh">独立推荐 — </span><span data-lang="ko">독립적 추천 — </span><span data-lang="ja">独立した推奨 — </span></strong>
+    <span data-lang="en">Products listed here are recommended solely on the basis of clinical suitability, evidence-based efficacy, and patient need. This pharmacy has no financial relationship with any listed brand and receives no sponsorship, commission, or incentive for these recommendations.</span>
+    <span data-lang="zh">此处列出的产品仅基于临床适用性、循证有效性和患者需求进行推荐。本药房与任何所列品牌均无财务关系，并未因这些推荐而获得任何赞助、佣金或奖励。</span>
+    <span data-lang="ko">여기에 나열된 제품은 임상적 적합성, 근거 기반 효능 및 환자 필요성에 기반하여 추천됩니다. 이 약국은 나열된 어떤 브랜드와도 재정적 관계가 없으며, 이러한 추천에 대해 후원, 수수료 또는 인센티브를 받지 않습니다.</span>
+    <span data-lang="ja">ここに記載されている製品は、臨床的適合性、エビデンスに基づく有効性、および患者のニーズのみに基づいて推奨されています。この薬局は記載されているいかなるブランドとも財務的関係はなく、これらの推奨に対してスポンサーシップ、手数料、またはインセンティブを受け取っていません。</span>
   </div>
   <div class="products-grid" id="productsGrid"></div>
   <button class="add-product-btn" onclick="openModal()">
@@ -543,19 +551,6 @@
         </select>
       </div>
       <div class="form-group modal-full">
-        <label>Best for (select all that apply)</label>
-        <div class="checkbox-group" id="f-tags">
-          <label class="checkbox-pill" onclick="togglePill(this)"><input type="checkbox" value="face"> Face</label>
-          <label class="checkbox-pill" onclick="togglePill(this)"><input type="checkbox" value="body"> Body</label>
-          <label class="checkbox-pill" onclick="togglePill(this)"><input type="checkbox" value="sensitive"> Sensitive skin</label>
-          <label class="checkbox-pill" onclick="togglePill(this)"><input type="checkbox" value="kids"> Kids</label>
-          <label class="checkbox-pill" onclick="togglePill(this)"><input type="checkbox" value="sport"> Sport</label>
-          <label class="checkbox-pill" onclick="togglePill(this)"><input type="checkbox" value="water"> Water resistant</label>
-          <label class="checkbox-pill" onclick="togglePill(this)"><input type="checkbox" value="daily"> Daily use</label>
-          <label class="checkbox-pill" onclick="togglePill(this)"><input type="checkbox" value="tinted"> Tinted / makeup</label>
-        </div>
-      </div>
-      <div class="form-group modal-full">
         <label>Pharmacist notes (optional)</label>
         <textarea id="f-notes" placeholder="e.g. Good option for patients on doxycycline. Fragrance-free, non-comedogenic."></textarea>
       </div>
@@ -619,8 +614,9 @@ function calculate(){
   }
   document.getElementById('uvPin').style.left=Math.min((uv-1)/10*92,92)+'%';
   timerTotalSec=Math.min(Math.max(mins,1),480)*60;
-  document.getElementById('ringNum').textContent=mins>480?'8+':mins>=60?Math.floor(mins/60)+(mins%60?':'+String(mins%60).padStart(2,'0'):''):mins;
-  document.getElementById('ringUnit').textContent=({en:mins>=60?'hr':'min',zh:mins>=60?'小时':'分钟',ko:mins>=60?'시간':'분',ja:mins>=60?'時間':'分'})[currentLang]||'min';
+  const dispSec=timerTotalSec;
+  const dh=Math.floor(dispSec/3600),dm=Math.floor((dispSec%3600)/60),ds=dispSec%60;
+  document.getElementById('ringHMS').textContent=String(dh).padStart(2,'0')+':'+String(dm).padStart(2,'0')+':'+String(ds).padStart(2,'0');
   document.getElementById('ringProgress').style.strokeDashoffset=376;
   document.getElementById('ringProgress').style.stroke=mins<20?'#EF4444':mins<60?'#F59E0B':'#10B981';
   if(timerInterval){clearInterval(timerInterval);timerInterval=null;resetTimerBtn();}
@@ -637,16 +633,18 @@ function toggleTimer(){
   const sl={en:'■ Stop',zh:'■ 停止',ko:'■ 중지',ja:'■ 停止'};
   document.getElementById('timerBtnText').innerHTML='<span>'+sl[currentLang]+'</span>';
   timerEndTime=Date.now()+timerTotalSec*1000;
-  const ring=document.getElementById('ringProgress'),numEl=document.getElementById('ringNum'),unitEl=document.getElementById('ringUnit');
+  const ring=document.getElementById('ringProgress'),hmsEl=document.getElementById('ringHMS');
   timerInterval=setInterval(()=>{
     const remaining=Math.max(0,timerEndTime-Date.now());
     ring.style.strokeDashoffset=376*(remaining/(timerTotalSec*1000));
-    const secs=Math.ceil(remaining/1000);
-    if(secs>=3600){numEl.textContent=Math.ceil(secs/3600);unitEl.textContent=({en:'hr',zh:'小时',ko:'시간',ja:'時間'})[currentLang];}
-    else if(secs>=60){numEl.textContent=Math.ceil(secs/60);unitEl.textContent=({en:'min',zh:'分钟',ko:'분',ja:'分'})[currentLang];}
-    else{numEl.textContent=secs;unitEl.textContent=({en:'sec',zh:'秒',ko:'초',ja:'秒'})[currentLang];}
+    const totalSecs=Math.ceil(remaining/1000);
+    const h=Math.floor(totalSecs/3600);
+    const m=Math.floor((totalSecs%3600)/60);
+    const s=totalSecs%60;
+    hmsEl.textContent=String(h).padStart(2,'0')+':'+String(m).padStart(2,'0')+':'+String(s).padStart(2,'0');
     if(remaining<=0){
       clearInterval(timerInterval);timerInterval=null;resetTimerBtn();ring.style.stroke='#EF4444';
+      hmsEl.textContent='00:00:00';
       const dm={en:'⏰ Time to seek shade and reapply sunscreen!',zh:'⏰ 是时候寻找阴凉处并重新涂抹防晒霜了！',ko:'⏰ 그늘을 찾고 선크림을 다시 바를 시간입니다!',ja:'⏰ 日陰に入り日焼け止めを塗り直す時間です！'};
       document.getElementById('timerMsg').textContent=dm[currentLang];
     }
@@ -655,11 +653,11 @@ function toggleTimer(){
 
 // ── Sunscreen products ────────────────────────────────────────────
 const DEFAULT_PRODUCTS=[
-  {id:1,name:'Cancer Council Everyday SPF 50+',brand:'Cancer Council',spf:'SPF 50+',type:'Lotion',tags:['face','body','daily'],notes:'Lightweight, fragrance-free. Good all-rounder for patients on photosensitising medications.'},
-  {id:2,name:'Invisible Zinc Tinted Day Wear SPF 50+',brand:'Invisible Zinc',spf:'SPF 50+',type:'Tinted',tags:['face','sensitive','tinted','daily'],notes:'Zinc oxide base. Ideal for patients with sensitive or reactive skin.'},
-  {id:3,name:'Banana Boat Kids Sport SPF 50+',brand:'Banana Boat',spf:'SPF 50+',type:'Spray',tags:['body','kids','sport','water'],notes:'Water resistant 4 hours. Suitable for children on doxycycline for acne.'},
-  {id:4,name:'La Roche-Posay Anthelios SPF 50+ Fluid',brand:'La Roche-Posay',spf:'SPF 50+',type:'Fluid',tags:['face','sensitive','daily'],notes:'Recommended for patients on retinoids or thiazide diuretics. Fragrance-free.'},
-  {id:5,name:'Neutrogena Ultra Sheer SPF 50',brand:'Neutrogena',spf:'SPF 50',type:'Lotion',tags:['face','body','daily'],notes:'Non-greasy, absorbs quickly. Good for patients who find heavier sunscreens uncomfortable.'},
+  {id:1,name:'Cancer Council Everyday SPF 50+',brand:'Cancer Council',spf:'SPF 50+',type:'Lotion',tags:['face','body','daily'],notes:'A lightweight, everyday sunscreen suitable for the whole family. Non-greasy and easy to apply, with aloe vera and vitamin E to keep skin moisturised. Fragrance free, paraben free, and dermatologically tested for sensitive skin. Water resistant for up to 4 hours. Made in Australia.'},
+  {id:2,name:'Invisible Zinc Sheer Defence Tinted Moisturiser SPF 50+',brand:'Invisible Zinc',spf:'SPF 50+',type:'Tinted',tags:['face','sensitive','tinted','daily'],notes:'A daily face moisturiser and sunscreen in one, with a light sheer tint that suits most skin tones. Uses zinc oxide as a physical barrier to reflect UV rays rather than absorb them — a good option for those with sensitive or reactive skin. Fragrance free, paraben free, and non-comedogenic so it won\'t block pores. Water resistant for 2 hours.'},
+  {id:3,name:'Banana Boat Kids SPF 50+',brand:'Banana Boat',spf:'SPF 50+',type:'Lotion',tags:['body','kids','sport','water'],notes:'A gentle, fragrance-free sunscreen made for children\'s sensitive skin. The formula is designed not to run into eyes, making application easier for younger kids. Lightweight and non-greasy, with broad spectrum UVA/UVB protection and 4 hours of water resistance. Dermatologically tested. Made in Australia.'},
+  {id:4,name:'La Roche-Posay Anthelios Invisible Fluid SPF 50+',brand:'La Roche-Posay',spf:'SPF 50+',type:'Fluid',tags:['face','sensitive','daily'],notes:'A lightweight facial sunscreen that absorbs quickly and leaves no greasy residue or white cast. Sits invisibly under makeup and won\'t block pores. Allergy tested and suitable for sensitive skin, including around the eye area. A good daily-use option for patients who want a product that feels like nothing is on their skin.'},
+  {id:5,name:'Neutrogena Ultra Sheer Face & Body Lotion SPF 50',brand:'Neutrogena',spf:'SPF 50',type:'Lotion',tags:['face','body','daily'],notes:'A broad spectrum sunscreen for face and body with a dry, matte finish that doesn\'t feel greasy or shiny. Oil free and non-comedogenic, making it well suited to oily or acne-prone skin. Water resistant for 2 hours. A practical all-over option for everyday use. Made in Australia.'},
 ];
 let products=JSON.parse(localStorage.getItem('sunscreen-products')||'null')||DEFAULT_PRODUCTS;
 let editingId=null,activeFilter='all';
@@ -676,13 +674,11 @@ function renderProducts(){
     return;
   }
   grid.innerHTML=filtered.map(p=>{
-    const tagBadges=(p.tags||[]).map(t=>'<span class="badge badge-neutral">'+(tagLabels[t]||t)+'</span>').join('');
     return '<div class="product-card">'+
       '<div><div class="product-name">'+escHtml(p.name)+'</div>'+(p.brand?'<div class="product-brand">'+escHtml(p.brand)+'</div>':'')+
       '</div><div class="product-badges">'+
         (p.spf?'<span class="badge badge-spf">'+escHtml(p.spf)+'</span>':'')+
         (p.type?'<span class="badge badge-type">'+escHtml(p.type)+'</span>':'')+
-        tagBadges+
       '</div>'+
       (p.notes?'<div class="product-notes">'+escHtml(p.notes)+'</div>':'')+
       '<div class="product-actions">'+
